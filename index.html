@@ -582,7 +582,7 @@
 
             <div class="form-group">
                 <label for="itemValorUnitario">Valor Unitário do Rolo (R$):</label>
-                <input type="text" id="itemValorUnitario" placeholder="R$ 0,00">
+                <input type="text" id="itemValorUnitario" placeholder="R$ 0,00" inputmode="decimal">
             </div>
 
             <div class="modal-actions">
@@ -820,16 +820,23 @@
     }
 
     // Inicialização quando a página carrega
+    document.addEventListener('DOMContentLoaded', function() {
+        updateItemsTable();
+        // Definir data atual
+        document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+    });
   document.addEventListener('DOMContentLoaded', function() {
-    updateItemsTable();
-    document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+    // ... seu código de inicialização já existente ...
 
-    // aqui entra o listener de formatação
-    const campoValor = document.getElementById('itemValorUnitario');
-    campoValor.addEventListener('input', function(e) {
-      let digits = e.target.value.replace(/\D/g, '');
-      let number = parseInt(digits || '0', 10) / 100;
-      e.target.value = number.toLocaleString('pt-BR', {
+    // formata “R$ 0,00” enquanto digita
+    const campo = document.getElementById('itemValorUnitario');
+    campo.addEventListener('input', e => {
+      // remove tudo que não for dígito
+      let d = e.target.value.replace(/\D/g, '');
+      // transforma em número com duas casas decimais
+      let n = parseInt(d || '0', 10) / 100;
+      // formata no padrão BRL
+      e.target.value = n.toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL'
       });
@@ -838,4 +845,3 @@
 </script>
 </body>
 </html>
-
