@@ -820,12 +820,25 @@
     }
 
     // Inicialização quando a página carrega
-    document.addEventListener('DOMContentLoaded', function() {
-        updateItemsTable();
-        // Definir data atual
-        document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+document.addEventListener('DOMContentLoaded', function() {
+    updateItemsTable();
+    // Definir data atual
+    document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
     });
-
+    document
+      .getElementById('itemValorUnitario')
+      .addEventListener('input', function(e) {
+        // remove tudo que não for dígito
+        let digits = e.target.value.replace(/\D/g, '');
+        // converte em número e ajusta duas casas decimais
+        let number = parseInt(digits || '0', 10) / 100;
+        // formata no padrão pt-BR com "R$"
+        e.target.value = number.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        });
+      });
+  });
 </script>
 </body>
 </html>
