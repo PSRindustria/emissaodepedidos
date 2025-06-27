@@ -761,12 +761,40 @@
         const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
         const impressao = document.getElementById('itemImpressao').value;
         const metroRolo = document.getElementById('itemMetroRolo').value;
-        const valorUnitario = parseFloat(document.getElementById('itemValorUnitario').value);
+function addItem() {
+  const quantidade = parseFloat(document.getElementById('itemQtd').value);
+  const produto    = document.getElementById('itemProduto').value;
 
-        if (!quantidade || !produto || !valorUnitario) {
-            alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
-            return;
-        }
+  // _Passo 1:_ pega a string formatada, ex: "R$ 12,34"
+  let raw = document.getElementById('itemValorUnitario').value;
+
+  // _Passo 2:_ remove tudo que não for dígito ou vírgula, trocando vírgula por ponto
+  raw = raw
+    .replace(/[R\$\s\.]/g, '')  // tira "R", "$", espaços e pontos de milhar
+    .replace(/,/g, '.');        // transforma vírgula decimal em ponto
+
+  // _Passo 3:_ converte para número
+  const valorUnitario = parseFloat(raw) || 0;
+
+  if (!quantidade || !produto || valorUnitario <= 0) {
+    alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
+    return;
+  }
+
+  // resto do seu código...
+  items.push({
+    quantidade,
+    unidade: document.getElementById('itemUnidade').value,
+    produto,
+    medidaAdesivo: document.getElementById('itemMedidaAdesivo').value,
+    impressao:     document.getElementById('itemImpressao').value,
+    metroRolo:     document.getElementById('itemMetroRolo').value,
+    valorUnitario // agora é número válido
+  });
+  updateItemsTable();
+  closeItemModal();
+}
+
 
         const item = {
             quantidade: quantidade,
