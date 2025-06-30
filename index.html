@@ -379,12 +379,12 @@
         </div>
 
         <div class="form-content">
-            <form id="pedidoForm">
-                <!-- Representante Comercial - Movido para cima -->
+            <form id="pedidoForm" class="rd-form" data-rdstation-form="552fc004-6b96-4465-944a-c4f5c4132f83">
+                <!-- Representante Comercial -->
                 <div class="section">
                     <div class="form-group">
                         <label for="representante">Representante Comercial:</label>
-                        <input type="text" id="representante" name="representante" placeholder="Nome do representante">
+                        <input type="text" id="representante" name="cf_vendedor" placeholder="Nome do representante">
                     </div>
                 </div>
 
@@ -395,7 +395,7 @@
                         <div class="form-row">
                             <div>
                                 <label for="cliente">Cliente:</label>
-                                <input type="text" id="cliente" name="cliente" placeholder="Nome do cliente">
+                                <input type="text" id="cliente" name="cf_empresa" placeholder="Nome do cliente">
                             </div>
                             <div>
                                 <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
@@ -407,11 +407,11 @@
                         <div class="form-row-3">
                             <div>
                                 <label for="telefone">Telefone:</label>
-                                <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000">
                             </div>
                             <div>
                                 <label for="cnpj">CNPJ:</label>
-                                <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
+                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00">
                             </div>
                             <div>
                                 <label for="email">E-mail Comprador/Financeiro:</label>
@@ -441,7 +441,7 @@
                                 <tr class="empty-state">
                                     <td colspan="7">
                                         <svg viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
+                                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/>
                                         </svg>
                                         <p>Nenhum item adicionado</p>
                                         <small>Clique em "Adicionar Item" para começar</small>
@@ -505,7 +505,6 @@
                         </button>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -536,26 +535,26 @@
             <div class="form-group">
                 <div class="form-row">
                     <div>
-<label for="itemProduto">Produto:</label>
-<select name="produto" id="itemProduto">
-  <option value="">Selecione o produto</option>
-  <option value="Bob. PDV">Bobina PDV</option>
-  <option value="Bob. REP">Bobina REP</option>
-  <option value="Bob.Ticket de Est.">Bobina Ticket de Estacionamento</option>
-  <option value="Etq de Balança">Etiqueta de Balança</option>
-  <option value="Etq de Gondola">Etiqueta de Gondola</option>
-  <option value="Etq Tag">Etiqueta tag</option>
-  <option value="Etq Cartaz">Etiqueta cartaz</option>
-  <option value="Etq Faixa">Etiqueta faixa</option>
-  <option value="Etq Tag Textil">Etiqueta Tag Textil</option>
-  <option value="Etq Marcação de preço">Etiqueta Marcação de Preço</option>
-  <option value="Etq Indicativa">Etiqueta Indicativa</option>
-  <option value="Ribbon Cera Padrão">Ribbon Cera Padrão</option>
-  <option value="Ribbon Cera Top">Ribbon Cera Top</option>
-  <option value="Ribbon Mista">Ribbon Mista</option>
-  <option value="Ribbon resina">Ribbon Resina</option>
-  <option value="Rótulos">Rótulos</option>
-</select>
+                        <label for="itemProduto">Produto:</label>
+                        <select name="produto" id="itemProduto">
+                            <option value="">Selecione o produto</option>
+                            <option value="Bob. PDV">Bobina PDV</option>
+                            <option value="Bob. REP">Bobina REP</option>
+                            <option value="Bob.Ticket de Est.">Bobina Ticket de Estacionamento</option>
+                            <option value="Etq de Balança">Etiqueta de Balança</option>
+                            <option value="Etq de Gondola">Etiqueta de Gondola</option>
+                            <option value="Etq Tag">Etiqueta tag</option>
+                            <option value="Etq Cartaz">Etiqueta cartaz</option>
+                            <option value="Etq Faixa">Etiqueta faixa</option>
+                            <option value="Etq Tag Textil">Etiqueta Tag Textil</option>
+                            <option value="Etq Marcação de preço">Etiqueta Marcação de Preço</option>
+                            <option value="Etq Indicativa">Etiqueta Indicativa</option>
+                            <option value="Ribbon Cera Padrão">Ribbon Cera Padrão</option>
+                            <option value="Ribbon Cera Top">Ribbon Cera Top</option>
+                            <option value="Ribbon Mista">Ribbon Mista</option>
+                            <option value="Ribbon resina">Ribbon Resina</option>
+                            <option value="Rótulos">Rótulos</option>
+                        </select>
                     </div>
                     <div>
                         <label for="itemMedidaAdesivo">Medida do Adesivo:</label>
@@ -608,7 +607,7 @@
         </div>
     </div>
 
-<script>
+    <script>
     // Array global para armazenar os itens
     let items = [];
 
@@ -826,6 +825,9 @@
         document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
     });
 
-</script>
+    </script>
+
+    <!-- Script RD Station -->
+    <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js" ></script>
 </body>
 </html>
