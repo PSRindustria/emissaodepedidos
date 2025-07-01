@@ -15,7 +15,7 @@
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: #003366; padding: 30px 30px 15px 30px; color: white; text-align: center; }
         .header-logo { width: 200px; height: 70px; background: #f0f0f0; border: 2px dashed #ccc; border-radius: 8px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
-        .header h1 { font-size: 28px; margin-bottom: 8px; font-weight: 600; padding-top: 15px }
+        .header h1 { font-size: 28px; margin-bottom: 8px; font-weight: 600; padding-top: 15px; }
         .form-content { padding: 40px; }
         .section { margin-bottom: 40px; }
         .section-title { font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
@@ -26,25 +26,25 @@
         .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #4a5568; font-size: 14px; }
         input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; background: white; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); transform: translateY(-1px);}
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); transform: translateY(-1px); }
         .items-section { background: #f8fafc; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
-        .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);}
-        .items-table th { background: #003366; color: white; padding: 15px 10px; text-align: left; font-weight: 500; font-size: 14px;}
-        .items-table td { padding: 15px 10px; border-bottom: 1px solid #e2e8f0; color: #4a5568;}
-        .items-table tbody tr:hover { background: #f8fafc;}
-        .empty-state { text-align: center; padding: 40px 20px; color: #718096;}
-        .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5;}
-        .btn { background: #003366; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;}
+        .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .items-table th { background: #003366; color: white; padding: 15px 10px; text-align: left; font-weight: 500; font-size: 14px; }
+        .items-table td { padding: 15px 10px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .items-table tbody tr:hover { background: #f8fafc; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #718096; }
+        .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+        .btn { background: #003366; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3); background: #002244; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; }
-        .btn-secondary:hover { background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);}
+        .btn-secondary:hover { background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn-danger { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
         .btn-danger:hover { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
         .btn-orange { background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%); color: white; }
         .btn-orange:hover { background: linear-gradient(135deg, #ff7700 0%, #ff5500 100%); box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3); }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(4px); }
         .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 16px; padding: 30px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; animation: modalSlideIn 0.3s ease; }
-        @keyframes modalSlideIn { from { opacity: 0; transform: translate(-50%, -60%);} to { opacity: 1; transform: translate(-50%, -50%);} }
+        @keyframes modalSlideIn { from { opacity: 0; transform: translate(-50%, -60%); } to { opacity: 1; transform: translate(-50%, -50%); } }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
         .modal-header h3 { color: #2d3748; font-size: 20px; }
         .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #718096; padding: 0; }
@@ -59,20 +59,20 @@
             .form-content { padding: 20px; }
             .header { padding: 20px; }
             .header h1 { font-size: 24px; }
-            .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr;}
-            .items-table { font-size: 14px;}
-            .items-table th, .items-table td { padding: 10px 6px;}
-            .modal-content { width: 95%; padding: 20px;}
+            .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
+            .items-table { font-size: 14px; }
+            .items-table th, .items-table td { padding: 10px 6px; }
+            .modal-content { width: 95%; padding: 20px; }
         }
         @media (max-width: 480px) {
-            .items-table th:nth-child(n+4), .items-table td:nth-child(n+4) { display: none;}
+            .items-table th:nth-child(n+4), .items-table td:nth-child(n+4) { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://i.postimg.cc/8CR5BZVj/200x70.png" alt="Logo PSR Indústria" width="150" height="52,5">
+            <img src="https://i.postimg.cc/8CR5BZVj/200x70.png" alt="Logo PSR Indústria" width="150" height="52.5">
             <h1>Emissão de Pedido - PSR Indústria</h1>
         </div>
         <div class="form-content">
@@ -135,9 +135,7 @@
                             <tbody id="itemsTableBody">
                                 <tr class="empty-state">
                                     <td colspan="7">
-                                        <svg viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/>
-                                        </svg>
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
                                         <p>Nenhum item adicionado</p>
                                         <small>Clique em "Adicionar Item" para começar</small>
                                     </td>
@@ -145,9 +143,7 @@
                             </tbody>
                         </table>
                         <button type="button" class="btn" onclick="openItemModal()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
-                            </svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
                             Adicionar Item
                         </button>
                     </div>
@@ -196,6 +192,7 @@
             </form>
         </div>
     </div>
+
     <!-- Modal para Adicionar Item -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
@@ -212,7 +209,8 @@
                     <div>
                         <label for="itemUnidade">Unidade:</label>
                         <select id="itemUnidade">
-                            <option value="CXS">CXS</option>
+                            <option value="rolos">Rolos</option>
+                            <option value="milheiro">Milheiro</option>
                         </select>
                     </div>
                 </div>
@@ -277,6 +275,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal para Resumo de Item -->
     <div id="itemSummaryModal" class="modal">
         <div class="modal-content">
@@ -290,187 +289,183 @@
             </div>
         </div>
     </div>
-<script>
-    let items = [];
-    // Bloqueio de múltiplos envios para evitar leads duplicados
-    document.getElementById('pedidoForm').addEventListener('submit', function(e) {
-        var btn = this.querySelector('[type="submit"]');
-        if (btn) btn.disabled = true;
-        setTimeout(() => { if (btn) btn.disabled = false; }, 5000);
-    });
-    // Máscara CNPJ
-    document.getElementById('cnpj').addEventListener('input', function(e) {
-        let v = e.target.value.replace(/\D/g,'').slice(0,14);
-        if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, "$1.$2.$3/$4-$5");
-        else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
-        else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
-        else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
-        e.target.value = v;
-    });
-    // Tratamento do campo 'Detalhes' ao mudar Impressão
-    document.getElementById('itemImpressao').addEventListener('change', function() {
-        const detalhesGroup = document.getElementById('itemDetalhesGroup');
-        if (this.value === 'Pers.') {
-            detalhesGroup.style.display = 'block';
-        } else {
-            detalhesGroup.style.display = 'none';
+
+    <script>
+        let items = [];
+
+        // Evita envios múltiplos
+        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+            var btn = this.querySelector('[type="submit"]');
+            if (btn) btn.disabled = true;
+            setTimeout(() => { if (btn) btn.disabled = false; }, 5000);
+        });
+
+        // Máscara CNPJ
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g,'').slice(0,14);
+            if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, "$1.$2.$3/$4-$5");
+            else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
+            else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
+            e.target.value = v;
+        });
+
+        // Exibe/Oculta 'Detalhes' conforme Impressão
+        document.getElementById('itemImpressao').addEventListener('change', function() {
+            const detalhesGroup = document.getElementById('itemDetalhesGroup');
+            detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
+        });
+
+        function openItemModal() {
+            document.getElementById('itemModal').style.display = 'block';
         }
-    });
-    function openItemSummaryModal(item) {
-        const modal = document.getElementById('itemSummaryModal');
-        const content = document.getElementById('itemSummaryContent');
-        content.innerHTML = `
-            <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
-                <p style="margin-bottom: 10px;"><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
-                <p style="margin-bottom: 10px;"><strong>Produto:</strong> ${item.produto}</p>
-                <p style="margin-bottom: 10px;"><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
-                <p style="margin-bottom: 10px;"><strong>Impressão:</strong> ${item.impressao}</p>
-                ${item.detalhes ? `<p style="margin-bottom: 10px;"><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
-                <p style="margin-bottom: 10px;"><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
-                <p style="margin-bottom: 0; font-size: 18px; font-weight: bold; color: #003366;"><strong>Valor Unitário do Rolo:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>
-            </div>
-        `;
-        modal.style.display = 'block';
-    }
-    function closeItemSummaryModal() {
-        document.getElementById('itemSummaryModal').style.display = 'none';
-    }
-    function updateItemsTable() {
-        const tableBody = document.getElementById('itemsTableBody');
-        tableBody.innerHTML = '';
-        if (items.length === 0) {
-            tableBody.innerHTML = `
-                <tr class="empty-state">
-                    <td colspan="7">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/>
-                        </svg>
-                        <p>Nenhum item adicionado</p>
-                        <small>Clique em "Adicionar Item" para começar</small>
-                    </td>
-                </tr>
-            `;
-        } else {
-            items.forEach((item, index) => {
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                    <td>${item.quantidade} ${item.unidade}</td>
-                    <td>${item.produto}</td>
-                    <td>${item.medidaAdesivo}</td>
-                    <td>${item.impressao}</td>
-                    <td>${item.metroRolo}</td>
-                    <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
-                    <td>
-                        <button type="button" class="remove-item" onclick="removeItem(${index})" title="Remover item">
-                            &times;
-                        </button>
-                    </td>
-                `;
-                row.style.cursor = 'pointer';
-                row.title = 'Clique para ver resumo do item';
-                row.addEventListener('click', function(e) {
-                    if (!e.target.classList.contains('remove-item')) {
-                        openItemSummaryModal(item);
-                    }
-                });
-            });
+        function closeItemModal() {
+            document.getElementById('itemModal').style.display = 'none';
+            document.getElementById('itemQtd').value = '';
+            document.getElementById('itemUnidade').value = 'rolos';
+            document.getElementById('itemProduto').value = '';
+            document.getElementById('itemMedidaAdesivo').value = '';
+            document.getElementById('itemImpressao').value = 'Lisa';
+            document.getElementById('itemMetroRolo').value = '';
+            document.getElementById('itemDetalhes').value = '';
+            document.getElementById('itemDetalhesGroup').style.display = 'none';
+            document.getElementById('itemValorUnitario').value = '';
         }
-        updateTotal();
-    }
-    function updateTotal() {
-        const summaryElement = document.getElementById('orderSummary');
-        if (items.length === 0) {
-            summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
-            return;
-        }
-        let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
-        let summaryHTML = '<div style="font-size: 14px; line-height: 1.6;">';
-        items.forEach((item, index) => {
-            if (item.unidade === 'CX' || item.unidade === 'CXS') {
-                const produto = item.produto.toLowerCase();
-                if (produto.includes('bob.')) cxBobinas += item.quantidade;
-                else if (produto.includes('etq')) cxEtiquetas += item.quantidade;
-                else if (produto.includes('rótulo') || produto.includes('rotulo')) cxRotulos += item.quantidade;
-                else if (produto.includes('ribbon')) cxRibbons += item.quantidade;
+
+        function addItem() {
+            const quantidade = parseFloat(document.getElementById('itemQtd').value);
+            const unidade = document.getElementById('itemUnidade').value;
+            const produto = document.getElementById('itemProduto').value;
+            const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+            const impressao = document.getElementById('itemImpressao').value;
+            const detalhes = document.getElementById('itemDetalhes').value;
+            const metroRolo = document.getElementById('itemMetroRolo').value;
+            const valorUnitario = parseFloat(document.getElementById('itemValorUnitario').value);
+
+            if (!quantidade || !produto || !valorUnitario) {
+                alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
+                return;
             }
-            summaryHTML += `
-                <div style="margin-bottom: 8px; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
-                    <strong>Item ${index + 1}:</strong> ${item.quantidade} ${item.unidade} de ${item.produto} 
-                    (${item.medidaAdesivo}) - ${item.impressao} - ${item.metroRolo} - R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}
+            items.push({ quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario });
+            updateItemsTable();
+            closeItemModal();
+        }
+
+        function removeItem(index) {
+            if (confirm('Tem certeza que deseja remover este item?')) {
+                items.splice(index, 1);
+                updateItemsTable();
+            }
+        }
+
+        function openItemSummaryModal(item) {
+            const modal = document.getElementById('itemSummaryModal');
+            const content = document.getElementById('itemSummaryContent');
+            content.innerHTML = `
+                <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
+                    <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
+                    <p><strong>Produto:</strong> ${item.produto}</p>
+                    <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
+                    <p><strong>Impressão:</strong> ${item.impressao}</p>
+                    ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
+                    <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
+                    <p style="font-weight:bold; color:#003366;"><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>
                 </div>
             `;
-        });
-        summaryHTML += `
-            <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 4px; border: 1px solid rgba(255,255,255,0.3);">
-                <strong style="font-size: 18px;">Quantidade total em caixas:</strong><br>
-                <span style="font-size: 16px;">CX de Bobinas: ${cxBobinas} | CX de Etiquetas: ${cxEtiquetas} | CX de Rótulos: ${cxRotulos} | CX de Ribbons: ${cxRibbons}</span>
-            </div>
-        `;
-        summaryHTML += '</div>';
-        summaryElement.innerHTML = summaryHTML;
-    }
-    function openItemModal() {
-        document.getElementById('itemModal').style.display = 'block';
-    }
-    function closeItemModal() {
-        document.getElementById('itemModal').style.display = 'none';
-        document.getElementById('itemQtd').value = '';
-        document.getElementById('itemUnidade').value = 'CXS';
-        document.getElementById('itemProduto').value = '';
-        document.getElementById('itemMedidaAdesivo').value = '';
-        document.getElementById('itemImpressao').value = 'Lisa';
-        document.getElementById('itemMetroRolo').value = '';
-        document.getElementById('itemDetalhes').value = '';
-        document.getElementById('itemDetalhesGroup').style.display = 'none';
-        document.getElementById('itemValorUnitario').value = '';
-    }
-    function addItem() {
-        const quantidade = parseFloat(document.getElementById('itemQtd').value);
-        const unidade = document.getElementById('itemUnidade').value;
-        const produto = document.getElementById('itemProduto').value;
-        const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
-        const impressao = document.getElementById('itemImpressao').value;
-        const detalhes = document.getElementById('itemDetalhes').value;
-        const metroRolo = document.getElementById('itemMetroRolo').value;
-        const valorUnitario = parseFloat(document.getElementById('itemValorUnitario').value);
-        if (!quantidade || !produto || !valorUnitario) {
-            alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
-            return;
+            modal.style.display = 'block';
         }
-        const item = { quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario };
-        items.push(item);
-        updateItemsTable();
-        closeItemModal();
-    }
-    function removeItem(index) {
-        if (confirm('Tem certeza que deseja remover este item?')) {
-            items.splice(index, 1);
+        function closeItemSummaryModal() {
+            document.getElementById('itemSummaryModal').style.display = 'none';
+        }
+
+        function updateItemsTable() {
+            const tableBody = document.getElementById('itemsTableBody');
+            tableBody.innerHTML = '';
+            if (items.length === 0) {
+                tableBody.innerHTML = `
+                    <tr class="empty-state">
+                        <td colspan="7">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
+                            <p>Nenhum item adicionado</p>
+                            <small>Clique em "Adicionar Item" para começar</small>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                items.forEach((item, index) => {
+                    const row = tableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${item.quantidade} ${item.unidade}</td>
+                        <td>${item.produto}</td>
+                        <td>${item.medidaAdesivo}</td>
+                        <td>${item.impressao}</td>
+                        <td>${item.metroRolo}</td>
+                        <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
+                        <td><button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button></td>
+                    `;
+                    row.addEventListener('click', e => {
+                        if (!e.target.classList.contains('remove-item')) openItemSummaryModal(item);
+                    });
+                });
+            }
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const summaryElement = document.getElementById('orderSummary');
+            if (items.length === 0) {
+                summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
+                return;
+            }
+            let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
+            let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
+
+            items.forEach(item => {
+                if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
+                    const p = item.produto.toLowerCase();
+                    if (p.includes('bob.')) cxBobinas += item.quantidade;
+                    else if (p.includes('etq')) cxEtiquetas += item.quantidade;
+                    else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
+                    else if (p.includes('ribbon')) cxRibbons += item.quantidade;
+                }
+            });
+
+            summaryHTML += `
+                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
+                    <strong style="font-size:18px;">Qtd total:</strong><br>
+                    <span style="font-size:16px;">
+                        Qtd de Bobinas: ${cxBobinas} |
+                        Qtd de Etiquetas: ${cxEtiquetas} |
+                        Qtd de Rótulos: ${cxRotulos} |
+                        Qtd de Ribbons: ${cxRibbons}
+                    </span>
+                </div>
+            `;
+            summaryHTML += '</div>';
+            summaryElement.innerHTML = summaryHTML;
+        }
+
+        function confirmClearForm() {
+            if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
+                document.getElementById('pedidoForm').reset();
+                items = [];
+                updateItemsTable();
+                document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('itemModal')) closeItemModal();
+            if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
             updateItemsTable();
-        }
-    }
-    function confirmClearForm() {
-        if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
-            clearForm();
-        }
-    }
-    function clearForm() {
-        document.getElementById('pedidoForm').reset();
-        items = [];
-        updateItemsTable();
-        document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
-    }
-    window.onclick = function(event) {
-        const itemModal = document.getElementById('itemModal');
-        const summaryModal = document.getElementById('itemSummaryModal');
-        if (event.target === itemModal) { closeItemModal(); }
-        if (event.target === summaryModal) { closeItemSummaryModal(); }
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        updateItemsTable();
-        document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
-    });
-</script>
-<!-- RD Station Loader -->
-<script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
+            document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+        });
+    </script>
+
+    <!-- RD Station Loader -->
+    <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 </body>
 </html>
