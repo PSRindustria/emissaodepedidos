@@ -319,25 +319,36 @@
         async function findCompanyByCNPJ(cnpj) {
             try {
                 const cleanCNPJ = cnpj.replace(/\D/g, '');
-                if (cleanCNPJ.length !== 14) return null;
+                console.log('findCompanyByCNPJ: CNPJ limpo para busca:', cleanCNPJ);
 
-                // Buscar empresas com filtro personalizado
-                const response = await fetch(`${RD_STATION_CONFIG.baseUrl}/organizations?token=${RD_STATION_CONFIG.token}&limit=200`);
+                if (cleanCNPJ.length !== 14) {
+                    console.log('findCompanyByCNPJ: CNPJ não tem 14 dígitos, ignorando busca.');
+                    return null;
+                }
+
+                const url = `${RD_STATION_CONFIG.baseUrl}/organizations?token=${RD_STATION_CONFIG.token}&limit=200`;
+                console.log('findCompanyByCNPJ: Chamando API:', url);
+                const response = await fetch(url);
                 
                 if (!response.ok) {
+                    console.error('findCompanyByCNPJ: Erro na resposta da API:', response.status, response.statusText);
                     throw new Error(`Erro na API: ${response.status}`);
                 }
 
                 const data = await response.json();
+                console.log('findCompanyByCNPJ: Dados recebidos da API:', data);
                 
                 if (data.organizations && data.organizations.length > 0) {
-                    // Procurar empresa com CNPJ correspondente
+                    console.log('findCompanyByCNPJ: Iterando sobre as empresas retornadas...');
                     for (const company of data.organizations) {
+                        console.log('findCompanyByCNPJ: Analisando empresa:', company.organization_name, 'ID:', company.organization_id);
                         if (company.organization_custom_fields) {
                             for (const field of company.organization_custom_fields) {
                                 if (field.custom_field_id === RD_STATION_CONFIG.customFields.company.cnpj) {
                                     const companyCNPJ = field.value ? field.value.replace(/\D/g, '') : '';
+                                    console.log('findCompanyByCNPJ: CNPJ do campo personalizado da empresa:', companyCNPJ);
                                     if (companyCNPJ === cleanCNPJ) {
+                                        console.log('findCompanyByCNPJ: CNPJ correspondente encontrado! Empresa:', company.organization_name);
                                         return company;
                                     }
                                 }
@@ -346,9 +357,10 @@
                     }
                 }
                 
+                console.log('findCompanyByCNPJ: Nenhuma empresa encontrada com o CNPJ fornecido.');
                 return null;
             } catch (error) {
-                console.error('Erro ao buscar empresa:', error);
+                console.error('findCompanyByCNPJ: Erro ao buscar empresa:', error);
                 return null;
             }
         }
@@ -372,8 +384,10 @@
                 // Se encontrou empresa, vincular o contato
                 if (companyId) {
                     payload.organization_id = companyId;
+                    console.log('createContactInCRM: Vinculando contato à empresa com ID:', companyId);
                 }
 
+                console.log('createContactInCRM: Enviando payload para criação de contato:', payload);
                 const response = await fetch(`${RD_STATION_CONFIG.baseUrl}/contacts`, {
                     method: 'POST',
                     headers: {
@@ -383,13 +397,16 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Erro ao criar contato: ${response.status}`);
+                    const errorText = await response.text();
+                    console.error('createContactInCRM: Erro na resposta da API ao criar contato:', response.status, response.statusText, errorText);
+                    throw new Error(`Erro ao criar contato: ${response.status} - ${errorText}`);
                 }
 
                 const result = await response.json();
+                console.log('createContactInCRM: Contato criado com sucesso:', result);
                 return result;
             } catch (error) {
-                console.error('Erro ao criar contato no CRM:', error);
+                console.error('createContactInCRM: Erro ao criar contato no CRM:', error);
                 throw error;
             }
         }
@@ -411,16 +428,20 @@
                     cnpj: formData.get('cf_cnpj')
                 };
 
+                console.log('submit: Dados do contato para criação:', contactData);
+
                 // Criar contato no CRM se houver dados suficientes
                 if (contactData.cnpj && contactData.cnpj.replace(/\D/g, '').length === 14) {
                     await createContactInCRM(contactData);
+                } else {
+                    console.log('submit: CNPJ não preenchido ou inválido, pulando criação de contato no CRM.');
                 }
 
                 // Submeter formulário normalmente para o RD Station
                 this.submit();
                 
             } catch (error) {
-                console.error('Erro ao processar formulário:', error);
+                console.error('submit: Erro ao processar formulário:', error);
                 alert('Erro ao processar o formulário. Tente novamente.');
             } finally {
                 setTimeout(() => { if (btn) btn.disabled = false; }, 5000);
@@ -524,17 +545,7 @@
         function openItemSummaryModal(item) {
             const modal = document.getElementById('itemSummaryModal');
             const content = document.getElementById('itemSummaryContent');
-            content.innerHTML = `
-                <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
-                    <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
-                    <p><strong>Produto:</strong> ${item.produto}</p>
-                    <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
-                    <p><strong>Impressão:</strong> ${item.impressao}</p>
-                    ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
-                    <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
-                    <p style="font-weight:bold; color:#003366;"><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>
-                </div>
-            `;
+            content.innerHTML = `\n                <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">\n                    <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>\n                    <p><strong>Produto:</strong> ${item.produto}</p>\n                    <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>\n                    <p><strong>Impressão:</strong> ${item.impressao}</p>\n                    ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}\n                    <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>\n                    <p style="font-weight:bold; color:#003366;"><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>\n                </div>\n            `;
             modal.style.display = 'block';
         }
         function closeItemSummaryModal() {
@@ -545,27 +556,11 @@
             const tableBody = document.getElementById('itemsTableBody');
             tableBody.innerHTML = '';
             if (items.length === 0) {
-                tableBody.innerHTML = `
-                    <tr class="empty-state">
-                        <td colspan="7">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
-                            <p>Nenhum item adicionado</p>
-                            <small>Clique em "Adicionar Item" para começar</small>
-                        </td>
-                    </tr>
-                `;
+                tableBody.innerHTML = `\n                    <tr class="empty-state">\n                        <td colspan="7">\n                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>\n                            <p>Nenhum item adicionado</p>\n                            <small>Clique em "Adicionar Item" para começar</small>\n                        </td>\n                    </tr>\n                `;
             } else {
                 items.forEach((item, index) => {
                     const row = tableBody.insertRow();
-                    row.innerHTML = `
-                        <td>${item.quantidade} ${item.unidade}</td>
-                        <td>${item.produto}</td>
-                        <td>${item.medidaAdesivo}</td>
-                        <td>${item.impressao}</td>
-                        <td>${item.metroRolo}</td>
-                        <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
-                        <td><button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button></td>
-                    `;
+                    row.innerHTML = `\n                        <td>${item.quantidade} ${item.unidade}</td>\n                        <td>${item.produto}</td>\n                        <td>${item.medidaAdesivo}</td>\n                        <td>${item.impressao}</td>\n                        <td>${item.metroRolo}</td>\n                        <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>\n                        <td><button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button></td>\n                    `;
                     row.addEventListener('click', e => {
                         if (!e.target.classList.contains('remove-item')) openItemSummaryModal(item);
                     });
@@ -593,17 +588,7 @@
                 }
             });
 
-            summaryHTML += `
-                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
-                    <strong style="font-size:18px;">Qtd total:</strong><br>
-                    <span style="font-size:16px;">
-                        Qtd de Bobinas: ${cxBobinas} |
-                        Qtd de Etiquetas: ${cxEtiquetas} |
-                        Qtd de Rótulos: ${cxRotulos} |
-                        Qtd de Ribbons: ${cxRibbons}
-                    </span>
-                </div>
-            `;
+            summaryHTML += `\n                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">\n                    <strong style="font-size:18px;">Qtd total:</strong><br>\n                    <span style="font-size:16px;">\n                        Qtd de Bobinas: ${cxBobinas} |\n                        Qtd de Etiquetas: ${cxEtiquetas} |\n                        Qtd de Rótulos: ${cxRotulos} |\n                        Qtd de Ribbons: ${cxRibbons}\n                    </span>\n                </div>\n            `;
             summaryHTML += '</div>';
             summaryElement.innerHTML = summaryHTML;
         }
@@ -634,3 +619,4 @@
     <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 </body>
 </html>
+
