@@ -5,19 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formulário de Pedido - PSR Etiquetas</title>
   <style>
-    /* === SEU CSS ORIGINAL (inalterado) === */
+    /* === TODO O SEU CSS ORIGINAL AQUI (inalterado) === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #fff; min-height: 100vh; padding: 20px;
     }
     .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
-    .header { background: #003366; padding: 30px 30px 15px; color: white; text-align: center; }
-    .header h1 { font-size: 28px; margin-bottom: 8px; font-weight: 600; padding-top: 15px; }
+    .header { background: #003366; padding: 30px 30px 15px 30px; color: white; text-align: center; }
+    .header-logo { width: 200px; height: 70px; background: #eee; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
+    .header h1 { font-size: 28px; margin-top: 8px; font-weight: 600; }
     .form-content { padding: 40px; }
     .section { margin-bottom: 40px; }
-    .section-title { font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    .section-title::before { content: ''; width: 4px; height: 20px; background: #003366; border-radius: 2px; }
+    .section-title {
+      font-size: 20px; font-weight: 600; color: #2d3748;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::before {
+      content: ''; width: 4px; height: 20px; background: #003366; border-radius: 2px;
+    }
     .form-group { margin-bottom: 20px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
@@ -27,7 +33,8 @@
       font-size: 16px; transition: all 0.3s ease; background: white;
     }
     input:focus, select:focus, textarea:focus {
-      outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0,51,102,0.1); transform: translateY(-1px);
+      outline: none; border-color: #003366;
+      box-shadow: 0 0 0 3px rgba(0,51,102,0.1); transform: translateY(-1px);
     }
     .items-section { background: #f8fafc; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
     .items-table {
@@ -38,22 +45,33 @@
       background: #003366; color: white; padding: 15px 10px; text-align: left;
       font-weight: 500; font-size: 14px;
     }
-    .items-table td { padding: 15px 10px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .items-table td {
+      padding: 15px 10px; border-bottom: 1px solid #e2e8f0; color: #4a5568;
+    }
     .items-table tbody tr:hover { background: #f8fafc; }
-    .empty-state { text-align: center; padding: 40px 20px; color: #718096; }
-    .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+    .empty-state {
+      text-align: center; padding: 40px 20px; color: #718096;
+    }
+    .empty-state svg {
+      width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5;
+    }
     .btn {
       background: #003366; color: white; border: none; padding: 12px 24px;
       border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500;
       transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
     }
     .btn:hover {
-      transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,51,102,0.3); background: #002244;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,51,102,0.3);
+      background: #002244;
     }
     .btn-secondary { background: #e2e8f0; color: #4a5568; }
-    .btn-secondary:hover { background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .btn-secondary:hover {
+      background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
     .btn-orange {
-      background: linear-gradient(135deg,#ff8c00 0%,#ff6600 100%); color: white;
+      background: linear-gradient(135deg,#ff8c00 0%,#ff6600 100%);
+      color: white;
     }
     .btn-orange:hover {
       background: linear-gradient(135deg,#ff7700 0%,#ff5500 100%);
@@ -80,27 +98,40 @@
     .modal-header h3 { color: #2d3748; font-size: 20px; }
     .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #718096; padding: 0; }
     .close-btn:hover { color: #2d3748; }
-    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
-    .total-section { background: #003366; color: white; padding: 25px; border-radius: 12px; text-align: right; margin-bottom: 30px; }
+    .modal-actions {
+      display: flex; gap: 12px; justify-content: flex-end;
+      margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;
+    }
+    .total-section {
+      background: #003366; color: white; padding: 25px;
+      border-radius: 12px; text-align: right; margin-bottom: 30px;
+    }
     .total-section h3 { font-size: 24px; margin-bottom: 8px; }
-    .remove-item { background: none; border: none; color: #e53e3e; cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s; }
+    .remove-item {
+      background: none; border: none; color: #e53e3e; cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s;
+    }
     .remove-item:hover { background: #fed7d7; }
     @media (max-width: 768px) {
       .form-row, .form-row-3 { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
-      .items-table th:nth-child(n+4), .items-table td:nth-child(n+4) { display: none; }
+      .items-table th:nth-child(n+4),
+      .items-table td:nth-child(n+4) {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://i.postimg.cc/8CR5BZVj/200x70.png" alt="Logo PSR Indústria" width="150" height="52.5">
+      <img src="https://i.postimg.cc/8CR5BZVj/200x70.png"
+           alt="Logo PSR Indústria" width="150" height="52.5">
       <h1>Emissão de Pedido - PSR Indústria</h1>
     </div>
     <div class="form-content">
-      <form id="pedidoForm" class="rd-form" data-rdstation-form="552fc004-6b96-4465-944a-c4f5c4132f83">
+      <form id="pedidoForm" class="rd-form"
+            data-rdstation-form="552fc004-6b96-4465-944a-c4f5c4132f83">
         <!-- Representante Comercial -->
         <div class="section">
           <div class="form-group">
@@ -154,7 +185,9 @@
               <tbody id="itemsTableBody">
                 <tr class="empty-state">
                   <td colspan="7">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0..." /></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1..." />
+                    </svg>
                     <p>Nenhum item adicionado</p>
                     <small>Clique em "Adicionar Item" para começar</small>
                   </td>
@@ -162,7 +195,8 @@
               </tbody>
             </table>
             <button type="button" class="btn" onclick="openItemModal()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 ..." /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 ..." /></svg>
               Adicionar Item
             </button>
           </div>
@@ -170,7 +204,9 @@
         <!-- Resumo do Pedido -->
         <div class="total-section">
           <h3>Resumo do Pedido</h3>
-          <div id="orderSummary" style="text-align:left;"><p>Nenhum item adicionado</p></div>
+          <div id="orderSummary" style="text-align:left;">
+            <p>Nenhum item adicionado</p>
+          </div>
         </div>
         <!-- Entrega e Pagamento -->
         <div class="section">
@@ -213,7 +249,7 @@
         <h3>Adicionar Item ao Pedido</h3>
         <button class="close-btn" onclick="closeItemModal()">&times;</button>
       </div>
-      <!-- Aqui vem seus campos de item (quantidade, unidade, produto, medida, impressão, detalhes, metro, valor) -->
+      <!-- === SEUS CAMPOS DE ITEM ORIGINAIS AQUI (inalterados) === -->
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
         <button class="btn" onclick="addItem()">Adicionar Item</button>
@@ -238,23 +274,29 @@
   <script>
     /* === SEUS SCRIPTS DE UI ORIGINAIS (inalterados) === */
     let items = [];
-    // Máscara de CNPJ, open/close modais, addItem, removeItem, updateItemsTable,
-    // updateTotal, confirmClearForm, window.onclick, DOMContentLoaded…
+    // Máscara de CNPJ, abertura/fechamento de modais, addItem, removeItem,
+    // updateItemsTable, updateTotal, confirmClearForm, listeners de clique…
   </script>
 
-  <!-- RD Station Loader -->
+  <!-- RD Station Loader (inalterado) -->
   <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 
-  <!-- Integração CRM v1 por CNPJ -->
+  <!-- === BLOCO INSERIDO: INTEGRAÇÃO CRM v1 POR CNPJ === -->
   <script>
     const ACCESS_TOKEN = '65c66ab166c32000165ab7b8';
 
+    // 1) Busca empresa pelo CNPJ
     async function getOrganizationIdByCNPJ(cnpj) {
       let page = 1;
       while (true) {
         const res = await fetch(
           `https://crm.rdstation.com/api/v1/organizations?page=${page}&per_page=50`,
-          { headers: { 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Accept': 'application/json' } }
+          {
+            headers: {
+              'Authorization': `Bearer ${ACCESS_TOKEN}`,
+              'Accept': 'application/json'
+            }
+          }
         );
         const data = await res.json();
         if (!data.organizations?.length) break;
@@ -267,6 +309,7 @@
       return null;
     }
 
+    // 2) Cria empresa se não existir
     async function createOrganization(name, cnpj) {
       const res = await fetch('https://crm.rdstation.com/api/v1/organizations', {
         method: 'POST',
@@ -277,12 +320,15 @@
         },
         body: JSON.stringify({
           name,
-          custom_fields: { '68652b3ca12866001866c0b4': cnpj }
+          custom_fields: {
+            '68652b3ca12866001866c0b4': cnpj
+          }
         })
       });
       return res.json();
     }
 
+    // 3) Cria contato vinculado à empresa
     async function createContact(name, email, phone, orgId, cnpj) {
       const res = await fetch('https://crm.rdstation.com/api/v1/contacts', {
         method: 'POST',
@@ -296,13 +342,16 @@
           email: [{ label: 'work', value: email }],
           phones: [{ label: 'work', value: phone }],
           organization_id: orgId,
-          custom_fields: { '65e5fb49eaf2aa0019569415': cnpj },
+          custom_fields: {
+            '65e5fb49eaf2aa0019569415': cnpj
+          },
           legal_bases: [{ selection: 'consent', type: 'express' }]
         })
       });
       return res.json();
     }
 
+    // 4) Intercepta o submit do formulário
     document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = this.querySelector('[type="submit"]');
@@ -313,14 +362,18 @@
         const telefone = document.getElementById('telefone').value.trim();
         const cnpj     = document.getElementById('cnpj').value.trim();
 
+        // busca ou cria empresa
         let orgId = await getOrganizationIdByCNPJ(cnpj);
         if (!orgId) {
           const newOrg = await createOrganization(nome, cnpj);
           orgId = newOrg.id;
         }
 
+        // cria contato vinculado
         const contato = await createContact(nome, email, telefone, orgId, cnpj);
         alert('Contato criado com sucesso! ID: ' + contato.id);
+
+        // limpa formulário
         this.reset();
       } catch (err) {
         console.error(err);
