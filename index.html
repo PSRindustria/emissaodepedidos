@@ -2,25 +2,197 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formulário de Pedido - PSR Etiquetas</title>
   <style>
-    /* TODO: mantenha todo o seu CSS existente aqui, sem alterações */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff; min-height: 100vh; padding: 20px;
+    }
+    .container {
+      max-width: 800px; margin: 0 auto;
+      background: white; border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: #003366; padding: 30px 30px 15px;
+      color: white; text-align: center;
+    }
+    .header h1 {
+      font-size: 28px; margin-bottom: 8px;
+      font-weight: 600; padding-top: 15px;
+    }
+    .form-content { padding: 40px; }
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 20px; font-weight: 600; color: #2d3748;
+      margin-bottom: 20px; display: flex;
+      align-items: center; gap: 10px;
+    }
+    .section-title::before {
+      content: ''; width: 4px; height: 20px;
+      background: #003366; border-radius: 2px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
+    label {
+      display: block; margin-bottom: 8px;
+      font-weight: 500; color: #4a5568; font-size: 14px;
+    }
+    input, select, textarea {
+      width: 100%; padding: 12px 16px;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 16px; transition: all 0.3s ease;
+      background: white;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: #003366;
+      box-shadow: 0 0 0 3px rgba(0,51,102,0.1);
+      transform: translateY(-1px);
+    }
+    .items-section {
+      background: #f8fafc; border-radius: 12px;
+      padding: 25px; margin-bottom: 30px;
+    }
+    .items-table {
+      width: 100%; border-collapse: collapse;
+      margin-bottom: 20px; background: white;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .items-table th {
+      background: #003366; color: white;
+      padding: 15px 10px; text-align: left;
+      font-weight: 500; font-size: 14px;
+    }
+    .items-table td {
+      padding: 15px 10px; border-bottom: 1px solid #e2e8f0;
+      color: #4a5568;
+    }
+    .items-table tbody tr:hover { background: #f8fafc; }
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: #718096;
+    }
+    .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+    .btn {
+      background: #003366; color: white; border: none;
+      padding: 12px 24px; border-radius: 8px;
+      cursor: pointer; font-size: 16px; font-weight: 500;
+      transition: all 0.3s ease; display: inline-flex;
+      align-items: center; gap: 8px;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,51,102,0.3);
+      background: #002244;
+    }
+    .btn-secondary {
+      background: #e2e8f0; color: #4a5568;
+    }
+    .btn-secondary:hover {
+      background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .btn-danger {
+      background: linear-gradient(135deg,#ff6b6b 0%,#ee5a24 100%);
+    }
+    .btn-danger:hover {
+      box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+    }
+    .btn-orange {
+      background: linear-gradient(135deg,#ff8c00 0%,#ff6600 100%);
+      color: white;
+    }
+    .btn-orange:hover {
+      background: linear-gradient(135deg,#ff7700 0%,#ff5500 100%);
+      box-shadow: 0 8px 25px rgba(255,140,0,0.3);
+    }
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      z-index: 1000; backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      background: white; border-radius: 16px;
+      padding: 30px; width: 90%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto;
+      animation: modalSlideIn 0.3s ease;
+    }
+    @keyframes modalSlideIn {
+      from { opacity:0; transform: translate(-50%,-60%); }
+      to   { opacity:1; transform: translate(-50%,-50%); }
+    }
+    .modal-header {
+      display:flex; justify-content:space-between;
+      align-items:center; margin-bottom:25px;
+      padding-bottom:15px; border-bottom:2px solid #e2e8f0;
+    }
+    .modal-header h3 { color: #2d3748; font-size:20px; }
+    .close-btn {
+      background:none; border:none; font-size:24px;
+      cursor:pointer; color:#718096; padding:0;
+    }
+    .close-btn:hover { color:#2d3748; }
+    .modal-actions {
+      display:flex; gap:12px; justify-content:flex-end;
+      margin-top:25px; padding-top:20px;
+      border-top:1px solid #e2e8f0;
+    }
+    .total-section {
+      background:#003366; color:white; padding:25px;
+      border-radius:12px; text-align:right;
+      margin-bottom:30px;
+    }
+    .total-section h3 { font-size:24px; margin-bottom:8px; }
+    .remove-item {
+      background:none; border:none; color:#e53e3e;
+      cursor:pointer; padding:4px; border-radius:4px;
+      transition:background 0.2s;
+    }
+    .remove-item:hover { background:#fed7d7; }
+
+    @media (max-width:768px) {
+      body { padding:10px; }
+      .form-content { padding:20px; }
+      .header { padding:20px; }
+      .header h1 { font-size:24px; }
+      .form-row, .form-row-3, .form-row-4 {
+        grid-template-columns:1fr;
+      }
+      .items-table { font-size:14px; }
+      .items-table th, .items-table td {
+        padding:10px 6px;
+      }
+      .modal-content { width:95%; padding:20px; }
+    }
+    @media (max-width:480px) {
+      .items-table th:nth-child(n+4),
+      .items-table td:nth-child(n+4) { display:none; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://i.postimg.cc/8CR5BZVj/200x70.png" alt="Logo PSR Indústria" width="150" height="52.5">
+      <img src="https://i.postimg.cc/8CR5BZVj/200x70.png"
+           alt="Logo PSR Indústria" width="150" height="52.5">
       <h1>Emissão de Pedido - PSR Indústria</h1>
     </div>
     <div class="form-content">
-      <form id="pedidoForm" class="rd-form" data-rdstation-form="552fc004-6b96-4465-944a-c4f5c4132f83">
+      <form id="pedidoForm" class="rd-form"
+            data-rdstation-form="552fc004-6b96-4465-944a-c4f5c4132f83">
         <!-- Representante Comercial -->
         <div class="section">
           <div class="form-group">
             <label for="representante">Representante Comercial:</label>
-            <input type="text" id="representante" name="cf_vendedor" placeholder="Nome do representante">
+            <input type="text" id="representante" name="cf_vendedor"
+                   placeholder="Nome do representante">
           </div>
         </div>
         <!-- Informações do Cliente -->
@@ -30,11 +202,13 @@
             <div class="form-row">
               <div>
                 <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa">
+                <input type="text" id="cliente" name="company_name"
+                       placeholder="Nome do cliente/empresa">
               </div>
               <div>
                 <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
-                <input type="text" id="pedidoCompra" name="pedidoCompra" placeholder="Número do pedido">
+                <input type="text" id="pedidoCompra" name="pedidoCompra"
+                       placeholder="Número do pedido">
               </div>
             </div>
           </div>
@@ -42,27 +216,102 @@
             <div class="form-row-3">
               <div>
                 <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000">
+                <input type="tel" id="telefone" name="cf_contato"
+                       placeholder="(00) 00000-0000">
               </div>
               <div>
                 <label for="cnpj">CNPJ:</label>
-                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                <input type="text" id="cnpj" name="cf_cnpj"
+                       placeholder="00.000.000/0000-00" maxlength="18">
               </div>
               <div>
                 <label for="email">E-mail Comprador/Financeiro:</label>
-                <input type="email" id="email" name="email" placeholder="email@empresa.com">
+                <input type="email" id="email" name="email"
+                       placeholder="email@empresa.com">
               </div>
             </div>
           </div>
         </div>
-        <!-- Itens do Pedido, Resumo, Entrega, Observações e Botões permanecem iguais -->
-        <div style="text-align: center; margin-bottom: 20px;">
-          <button type="submit" class="btn" style="font-size: 18px; padding: 15px 40px;">
+
+        <!-- Itens do Pedido -->
+        <div class="section">
+          <h2 class="section-title">Itens do Pedido</h2>
+          <div class="items-section">
+            <table class="items-table" id="itemsTable">
+              <thead>
+                <tr>
+                  <th>Qtd.</th><th>Produto</th><th>Medida</th>
+                  <th>Impressão</th><th>M</th><th>R$ Unit.</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="itemsTableBody">
+                <tr class="empty-state">
+                  <td colspan="7">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 ..."/>
+                    </svg>
+                    <p>Nenhum item adicionado</p>
+                    <small>Clique em "Adicionar Item" para começar</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn" onclick="openItemModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 ..."/></svg>
+              Adicionar Item
+            </button>
+          </div>
+        </div>
+
+        <!-- Resumo do Pedido -->
+        <div class="total-section">
+          <h3>Resumo do Pedido</h3>
+          <div id="orderSummary" style="text-align:left;">
+            <p>Nenhum item adicionado</p>
+          </div>
+        </div>
+
+        <!-- Entrega e Pagamento -->
+        <div class="section">
+          <h2 class="section-title">Entrega e Pagamento</h2>
+          <div class="form-group">
+            <div class="form-row">
+              <div>
+                <label for="dataEmissao">Data de Emissão:</label>
+                <input type="date" id="dataEmissao" name="dataEmissao"
+                       readonly style="background:#f8fafc;">
+              </div>
+              <div>
+                <label for="condicoesPagamento">
+                  Condições de Pagamento:
+                </label>
+                <input type="text" id="condicoesPagamento"
+                       name="condicoesPagamento" placeholder="Ex: 28 dias">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observações -->
+        <div class="section">
+          <h2 class="section-title">Observações</h2>
+          <div class="form-group">
+            <textarea id="observacoes" name="observacoes" rows="4"
+                      placeholder="Observações adicionais..."></textarea>
+          </div>
+        </div>
+
+        <!-- Botões -->
+        <div style="text-align:center; margin-bottom:20px;">
+          <button type="submit" class="btn" style="font-size:18px; padding:15px 40px;">
             Finalizar Pedido
           </button>
         </div>
-        <div style="text-align: center;">
-          <button type="button" class="btn btn-orange" onclick="confirmClearForm()" style="font-size: 14px; padding: 10px 25px;">
+        <div style="text-align:center;">
+          <button type="button" class="btn btn-orange"
+                  onclick="confirmClearForm()"
+                  style="font-size:14px; padding:10px 25px;">
             Limpar Formulário
           </button>
         </div>
@@ -70,227 +319,260 @@
     </div>
   </div>
 
-    <!-- Modal para Resumo de Item -->
-    <div id="itemSummaryModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Resumo do Item</h3>
-                <button type="button" class="close-btn" onclick="closeItemSummaryModal()">&times;</button>
-            </div>
-            <div id="itemSummaryContent"></div>
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" onclick="closeItemSummaryModal()">Fechar</button>
-            </div>
+  <!-- Modal Adicionar Item -->
+  <div id="itemModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Adicionar Item ao Pedido</h3>
+        <button class="close-btn" onclick="closeItemModal()">&times;</button>
+      </div>
+      <div class="form-group">
+        <div class="form-row-3">
+          <div>
+            <label for="itemQtd">Quantidade:</label>
+            <input type="number" id="itemQtd" step="1" min="1">
+          </div>
+          <div>
+            <label for="itemUnidade">Unidade:</label>
+            <select id="itemUnidade">
+              <option value="rolos">Rolos</option>
+              <option value="milheiro">Milheiro</option>
+            </select>
+          </div>
+          <div>
+            <label for="itemProduto">Produto:</label>
+            <input type="text" id="itemProduto">
+          </div>
         </div>
+      </div>
+      <div class="form-group">
+        <div class="form-row-4">
+          <div>
+            <label for="itemMedidaAdesivo">Medida do Adesivo:</label>
+            <input type="text" id="itemMedidaAdesivo" placeholder="Ex: 60x150">
+          </div>
+          <div>
+            <label for="itemImpressao">Impressão:</label>
+            <select id="itemImpressao">
+              <option value="Lisa">Lisa</option>
+              <option value="Pers.">Personalizada</option>
+            </select>
+          </div>
+          <div>
+            <label for="itemMetroRolo">Metro do Rolo:</label>
+            <input type="text" id="itemMetroRolo" placeholder="Ex: 30 M">
+          </div>
+          <div>
+            <label for="itemValorUnitario">
+              Valor Unitário do Rolo (R$):
+            </label>
+            <input type="number" id="itemValorUnitario" step="0.01" min="0" placeholder="R$ 0,00">
+          </div>
+        </div>
+      </div>
+      <div class="form-group" id="itemDetalhesGroup" style="display:none;">
+        <label for="itemDetalhes">Detalhes:</label>
+        <input type="text" id="itemDetalhes" placeholder="Detalhes">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeItemModal()">
+          Cancelar
+        </button>
+        <button class="btn" onclick="addItem()">
+          Adicionar Item
+        </button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        let items = [];
+  <!-- Modal Resumo de Item -->
+  <div id="itemSummaryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Resumo do Item</h3>
+        <button class="close-btn" onclick="closeItemSummaryModal()">&times;</button>
+      </div>
+      <div id="itemSummaryContent"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeItemSummaryModal()">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
 
-        // Evita envios múltiplos
-        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
-            var btn = this.querySelector('[type="submit"]');
-            if (btn) btn.disabled = true;
-            setTimeout(() => { if (btn) btn.disabled = false; }, 5000);
+  <script>
+    let items = [];
+
+    // Máscara CNPJ
+    document.getElementById('cnpj').addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').slice(0,14);
+      if (v.length > 12) v = v.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/,
+        "$1.$2.$3/$4-$5"
+      );
+      else if (v.length > 8) v = v.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/,
+        "$1.$2.$3/$4"
+      );
+      else if (v.length > 5) v = v.replace(
+        /^(\d{2})(\d{3})(\d{0,3}).*/,
+        "$1.$2.$3"
+      );
+      else if (v.length > 2) v = v.replace(
+        /^(\d{2})(\d{0,3}).*/,
+        "$1.$2"
+      );
+      e.target.value = v;
+    });
+
+    // Exibe/oculta 'Detalhes' na impressão personalizada
+    document.getElementById('itemImpressao').addEventListener('change', function() {
+      document.getElementById('itemDetalhesGroup').style.display =
+        this.value === 'Pers.' ? 'block' : 'none';
+    });
+
+    function openItemModal() {
+      document.getElementById('itemModal').style.display = 'block';
+    }
+    function closeItemModal() {
+      document.getElementById('itemModal').style.display = 'none';
+      document.querySelectorAll('#itemModal input, #itemModal select').forEach(el => el.value = '');
+      document.getElementById('itemDetalhesGroup').style.display = 'none';
+    }
+
+    function addItem() {
+      const q = parseFloat(document.getElementById('itemQtd').value);
+      const v = parseFloat(document.getElementById('itemValorUnitario').value);
+      if (!q || !v || !document.getElementById('itemProduto').value) {
+        alert('Preencha quantidade, produto e valor unitário.');
+        return;
+      }
+      items.push({
+        quantidade: q,
+        unidade: document.getElementById('itemUnidade').value,
+        produto: document.getElementById('itemProduto').value,
+        medidaAdesivo: document.getElementById('itemMedidaAdesivo').value,
+        impressao: document.getElementById('itemImpressao').value,
+        detalhes: document.getElementById('itemDetalhes').value,
+        metroRolo: document.getElementById('itemMetroRolo').value,
+        valorUnitario: v
+      });
+      updateItemsTable();
+      closeItemModal();
+    }
+
+    function removeItem(i) {
+      if (confirm('Remover este item?')) {
+        items.splice(i,1);
+        updateItemsTable();
+      }
+    }
+
+    function openItemSummaryModal(item) {
+      const modal = document.getElementById('itemSummaryModal');
+      const c = document.getElementById('itemSummaryContent');
+      c.innerHTML = `
+        <p><strong>Qtd:</strong> ${item.quantidade} ${item.unidade}</p>
+        <p><strong>Produto:</strong> ${item.produto}</p>
+        <p><strong>Medida:</strong> ${item.medidaAdesivo}</p>
+        <p><strong>Impressão:</strong> ${item.impressao}</p>
+        ${item.detalhes?`<p><strong>Detalhes:</strong> ${item.detalhes}</p>`:``}
+        <p><strong>Metro:</strong> ${item.metroRolo}</p>
+        <p><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2)}</p>
+      `;
+      modal.style.display = 'block';
+    }
+    function closeItemSummaryModal() {
+      document.getElementById('itemSummaryModal').style.display = 'none';
+    }
+
+    function updateItemsTable() {
+      const tbody = document.getElementById('itemsTableBody');
+      tbody.innerHTML = '';
+      if (!items.length) {
+        tbody.innerHTML = `
+          <tr class="empty-state">
+            <td colspan="7">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1..."/>
+              </svg>
+              <p>Nenhum item adicionado</p>
+            </td>
+          </tr>`;
+      } else {
+        items.forEach((it,i) => {
+          const row = tbody.insertRow();
+          row.innerHTML = `
+            <td>${it.quantidade} ${it.unidade}</td>
+            <td>${it.produto}</td>
+            <td>${it.medidaAdesivo}</td>
+            <td>${it.impressao}</td>
+            <td>${it.metroRolo}</td>
+            <td>R$ ${it.valorUnitario.toFixed(2)}</td>
+            <td>
+              <button class="remove-item" onclick="removeItem(${i})">&times;</button>
+            </td>`;
+          row.addEventListener('click', e => {
+            if (!e.target.classList.contains('remove-item'))
+              openItemSummaryModal(it);
+          });
         });
+      }
+      // Atualiza resumo
+      const sumEl = document.getElementById('orderSummary');
+      if (!items.length) {
+        sumEl.innerHTML = '<p>Nenhum item adicionado</p>';
+      } else {
+        let total = items.reduce((acc, it) => acc + it.quantidade * it.valorUnitario, 0);
+        sumEl.innerHTML = `<p><strong>Total:</strong> R$ ${total.toFixed(2)}</p>`;
+      }
+    }
 
-        // Máscara CNPJ
-        document.getElementById('cnpj').addEventListener('input', function(e) {
-            let v = e.target.value.replace(/\D/g,'').slice(0,14);
-            if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, "$1.$2.$3/$4-$5");
-            else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
-            else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
-            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
-            e.target.value = v;
-        });
+    function confirmClearForm() {
+      if (confirm('Limpar todo o formulário?')) {
+        document.getElementById('pedidoForm').reset();
+        items = []; updateItemsTable();
+        document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+      }
+    }
 
-        // Exibe/Oculta 'Detalhes' conforme Impressão
-        document.getElementById('itemImpressao').addEventListener('change', function() {
-            const detalhesGroup = document.getElementById('itemDetalhesGroup');
-            detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
-        });
+    window.onclick = e => {
+      if (e.target === document.getElementById('itemModal')) closeItemModal();
+      if (e.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
+    };
 
-        function openItemModal() {
-            document.getElementById('itemModal').style.display = 'block';
-        }
-        function closeItemModal() {
-            document.getElementById('itemModal').style.display = 'none';
-            document.getElementById('itemQtd').value = '';
-            document.getElementById('itemUnidade').value = 'rolos';
-            document.getElementById('itemProduto').value = '';
-            document.getElementById('itemMedidaAdesivo').value = '';
-            document.getElementById('itemImpressao').value = 'Lisa';
-            document.getElementById('itemMetroRolo').value = '';
-            document.getElementById('itemDetalhes').value = '';
-            document.getElementById('itemDetalhesGroup').style.display = 'none';
-            document.getElementById('itemValorUnitario').value = '';
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+      updateItemsTable();
+      document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
+    });
+  </script>
 
-        function addItem() {
-            const quantidade = parseFloat(document.getElementById('itemQtd').value);
-            const unidade = document.getElementById('itemUnidade').value;
-            const produto = document.getElementById('itemProduto').value;
-            const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
-            const impressao = document.getElementById('itemImpressao').value;
-            const detalhes = document.getElementById('itemDetalhes').value;
-            const metroRolo = document.getElementById('itemMetroRolo').value;
-            const valorUnitario = parseFloat(document.getElementById('itemValorUnitario').value);
-
-            if (!quantidade || !produto || !valorUnitario) {
-                alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
-                return;
-            }
-            items.push({ quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario });
-            updateItemsTable();
-            closeItemModal();
-        }
-
-        function removeItem(index) {
-            if (confirm('Tem certeza que deseja remover este item?')) {
-                items.splice(index, 1);
-                updateItemsTable();
-            }
-        }
-
-        function openItemSummaryModal(item) {
-            const modal = document.getElementById('itemSummaryModal');
-            const content = document.getElementById('itemSummaryContent');
-            content.innerHTML = `
-                <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
-                    <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
-                    <p><strong>Produto:</strong> ${item.produto}</p>
-                    <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
-                    <p><strong>Impressão:</strong> ${item.impressao}</p>
-                    ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
-                    <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
-                    <p style="font-weight:bold; color:#003366;"><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>
-                </div>
-            `;
-            modal.style.display = 'block';
-        }
-        function closeItemSummaryModal() {
-            document.getElementById('itemSummaryModal').style.display = 'none';
-        }
-
-        function updateItemsTable() {
-            const tableBody = document.getElementById('itemsTableBody');
-            tableBody.innerHTML = '';
-            if (items.length === 0) {
-                tableBody.innerHTML = `
-                    <tr class="empty-state">
-                        <td colspan="7">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
-                            <p>Nenhum item adicionado</p>
-                            <small>Clique em "Adicionar Item" para começar</small>
-                        </td>
-                    </tr>
-                `;
-            } else {
-                items.forEach((item, index) => {
-                    const row = tableBody.insertRow();
-                    row.innerHTML = `
-                        <td>${item.quantidade} ${item.unidade}</td>
-                        <td>${item.produto}</td>
-                        <td>${item.medidaAdesivo}</td>
-                        <td>${item.impressao}</td>
-                        <td>${item.metroRolo}</td>
-                        <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
-                        <td><button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button></td>
-                    `;
-                    row.addEventListener('click', e => {
-                        if (!e.target.classList.contains('remove-item')) openItemSummaryModal(item);
-                    });
-                });
-            }
-            updateTotal();
-        }
-
-        function updateTotal() {
-            const summaryElement = document.getElementById('orderSummary');
-            if (items.length === 0) {
-                summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
-                return;
-            }
-            let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
-            let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
-
-            items.forEach(item => {
-                if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
-                    const p = item.produto.toLowerCase();
-                    if (p.includes('bob.')) cxBobinas += item.quantidade;
-                    else if (p.includes('etq')) cxEtiquetas += item.quantidade;
-                    else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
-                    else if (p.includes('ribbon')) cxRibbons += item.quantidade;
-                }
-            });
-
-            summaryHTML += `
-                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
-                    <strong style="font-size:18px;">Qtd total:</strong><br>
-                    <span style="font-size:16px;">
-                        Qtd de Bobinas: ${cxBobinas} |
-                        Qtd de Etiquetas: ${cxEtiquetas} |
-                        Qtd de Rótulos: ${cxRotulos} |
-                        Qtd de Ribbons: ${cxRibbons}
-                    </span>
-                </div>
-            `;
-            summaryHTML += '</div>';
-            summaryElement.innerHTML = summaryHTML;
-        }
-
-        function confirmClearForm() {
-            if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
-                document.getElementById('pedidoForm').reset();
-                items = [];
-                updateItemsTable();
-                document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
-            }
-        }
-
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('itemModal')) closeItemModal();
-            if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateItemsTable();
-            document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
-        });
-    </script>
-
-  <!-- RD Station Loader -->
+  <!-- RD Station Loader (mantém seu tracker) -->
   <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 
-  <!-- ==== Lógica CRM v1 com vinculação por CNPJ ==== -->
+  <!-- ==== Integração CRM v1 por CNPJ ==== -->
   <script>
-    const ACCESS_TOKEN = '65c66ab166c32000165ab7b8';  // seu token de acesso
+    const ACCESS_TOKEN = '65c66ab166c32000165ab7b8';
 
-    // 1. Buscar Empresa pelo CNPJ (campo customizado ID: 68652b3ca12866001866c0b4)
     async function getOrganizationIdByCNPJ(cnpj) {
       let page = 1;
       while (true) {
-        const resp = await fetch(`https://crm.rdstation.com/api/v1/organizations?page=${page}&per_page=50`, {
-          headers: {
-            'Authorization': `Bearer ${ACCESS_TOKEN}`,
-            'Accept': 'application/json'
-          }
-        });
-        const data = await resp.json();
-        const orgs = data.organizations || [];
-        if (orgs.length === 0) break;
-        const found = orgs.find(o =>
-          o.custom_fields &&
-          o.custom_fields['68652b3ca12866001866c0b4'] === cnpj
+        const resp = await fetch(
+          `https://crm.rdstation.com/api/v1/organizations?page=${page}&per_page=50`,
+          { headers: { 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Accept': 'application/json' } }
         );
-        if (found) return found.id;
-        if (orgs.length < 50) break;
+        const data = await resp.json();
+        if (!data.organizations.length) break;
+        const org = data.organizations.find(o =>
+          o.custom_fields?.['68652b3ca12866001866c0b4'] === cnpj
+        );
+        if (org) return org.id;
         page++;
       }
       return null;
     }
 
-    // 2. Criar Empresa se não existir
     async function createOrganization(name, cnpj) {
       const resp = await fetch('https://crm.rdstation.com/api/v1/organizations', {
         method: 'POST',
@@ -301,15 +583,12 @@
         },
         body: JSON.stringify({
           name,
-          custom_fields: {
-            '68652b3ca12866001866c0b4': cnpj
-          }
+          custom_fields: { '68652b3ca12866001866c0b4': cnpj }
         })
       });
-      return await resp.json();
+      return resp.json();
     }
 
-    // 3. Criar Contato vinculado à Empresa (campo customizado CNPJ do contato ID: 65e5fb49eaf2aa0019569415)
     async function createContact(name, email, phone, orgId, cnpj) {
       const resp = await fetch('https://crm.rdstation.com/api/v1/contacts', {
         method: 'POST',
@@ -320,45 +599,38 @@
         },
         body: JSON.stringify({
           name,
-          email: [{ label: 'work', value: email }],
-          phones: [{ label: 'work', value: phone }],
+          email: [{ label:'work', value: email }],
+          phones: [{ label:'work', value: phone }],
           organization_id: orgId,
-          custom_fields: {
-            '65e5fb49eaf2aa0019569415': cnpj
-          },
-          legal_bases: [{ selection: 'consent', type: 'express' }]
+          custom_fields: { '65e5fb49eaf2aa0019569415': cnpj },
+          legal_bases: [{ selection:'consent', type:'express' }]
         })
       });
-      return await resp.json();
+      return resp.json();
     }
 
-    // 4. Interceptar submissão do formulário
     document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = this.querySelector('[type="submit"]');
       if (btn) btn.disabled = true;
-
       try {
         const nome     = document.getElementById('cliente').value.trim();
         const email    = document.getElementById('email').value.trim();
         const telefone = document.getElementById('telefone').value.trim();
         const cnpj     = document.getElementById('cnpj').value.trim();
 
-        // Buscar ou criar Empresa
         let orgId = await getOrganizationIdByCNPJ(cnpj);
         if (!orgId) {
           const newOrg = await createOrganization(nome, cnpj);
           orgId = newOrg.id;
         }
 
-        // Criar Contato vinculado
         const contact = await createContact(nome, email, telefone, orgId, cnpj);
         alert('Contato criado com sucesso! ID: ' + contact.id);
-
         this.reset();
       } catch (err) {
         console.error(err);
-        alert('Erro ao criar contato: ' + (err.message || err));
+        alert('Erro ao criar contato: ' + err.message);
       } finally {
         if (btn) btn.disabled = false;
       }
