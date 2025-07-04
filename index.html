@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Pedido - PSR Etiquetas</title>
     <style>
-        /* ... (todo o seu CSS aqui, mantive igual ao seu) ... */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -302,8 +301,8 @@
         });
 
         // Máscara CNPJ
-        document.getElementById('cnpj').addEventListener('input', function(e) {
-            let v = e.target.value.replace(/\D/g,'').slice(0,14);
+        document.getElementById("cnpj").addEventListener("input", function(e) {
+            let v = e.target.value.replace(/\D/g,"").slice(0,14);
             if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, "$1.$2.$3/$4-$5");
             else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
             else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
@@ -311,17 +310,34 @@
             e.target.value = v;
         });
 
-// Busca automática do nome do cliente pelo CNPJ
-        document.getElementById('cnpj').addEventListener('blur', function(e) {
-            let cnpj = e.target.value.replace(/\D/g, '');
-            if (cnpj.length === 14) {
-                fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?cnpj=' + cnpj)
-                    .then(res => res.text())
-                    .then(nome => {
-                        document.getElementById('cliente').value = nome || '';
+        // Função para buscar CNPJ e preencher o nome da empresa
+        document.getElementById("cnpj").addEventListener("blur", function() {
+            const cnpjInput = this.value.replace(/\D/g, ""); // Remove formatação
+            const clienteInput = document.getElementById("cliente");
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec"; // Sua URL do Google Apps Script
+
+            if (cnpjInput.length === 14) {
+                fetch(`${scriptUrl}?cnpj=${cnpjInput}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.companyName) {
+                            clienteInput.value = data.companyName;
+                        } else if (data.error) {
+                            console.error("Erro na busca de CNPJ:", data.error);
+                            // alert("Erro na busca de CNPJ: " + data.error);
+                        } else {
+                            clienteInput.value = ""; // Limpa se não encontrar
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro ao conectar com o script do Google Apps:", error);
+                        // alert("Erro ao conectar com o script de busca de CNPJ.");
                     });
+            } else {
+                clienteInput.value = ""; // Limpa se o CNPJ não for válido
             }
         });
+
         // Exibe/Oculta 'Detalhes' conforme Impressão
         document.getElementById('itemImpressao').addEventListener('change', function() {
             const detalhesGroup = document.getElementById('itemDetalhesGroup');
@@ -475,22 +491,6 @@
             updateItemsTable();
             document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
         });
-        document.getElementById('cnpj').addEventListener('blur', function(e) {
-    let cnpj = e.target.value.replace(/\D/g, '');
-    if (cnpj.length === 14) {
-        fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?cnpj=' + cnpj)
-            .then(res => res.text())
-            .then(nome => {
-                document.getElementById('cliente').value = nome || '';
-                if (!nome) {
-                    alert('Nenhuma empresa encontrada para este CNPJ.');
-                }
-            })
-            .catch(() => {
-                alert('Erro ao buscar nome do cliente.');
-            });
-    }
-});
     </script>
 
     <!-- RD Station Loader -->
