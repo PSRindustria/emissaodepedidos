@@ -475,6 +475,22 @@
             updateItemsTable();
             document.getElementById('dataEmissao').value = new Date().toISOString().split('T')[0];
         });
+        document.getElementById('cnpj').addEventListener('blur', function(e) {
+    let cnpj = e.target.value.replace(/\D/g, '');
+    if (cnpj.length === 14) {
+        fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?cnpj=' + cnpj)
+            .then(res => res.text())
+            .then(nome => {
+                document.getElementById('cliente').value = nome || '';
+                if (!nome) {
+                    alert('Nenhuma empresa encontrada para este CNPJ.');
+                }
+            })
+            .catch(() => {
+                alert('Erro ao buscar nome do cliente.');
+            });
+    }
+});
     </script>
 
     <!-- RD Station Loader -->
