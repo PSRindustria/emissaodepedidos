@@ -537,20 +537,34 @@ function confirmClearForm() {
 document.getElementById('cnpj').addEventListener('blur', function () {
     const cnpjValue = this.value.replace(/\D/g, "");
     let status = document.getElementById('cnpj-status');
+    const clienteInput = document.getElementById('cliente');
     if (cnpjValue.length !== 14) {
         status.textContent = '';
         cnpjEncontrado = false;
+        clienteInput.value = '';
+        clienteInput.readOnly = false;
         return;
     }
     status.textContent = "Procurando CNPJ existente.";
+    clienteInput.value = '';
+    clienteInput.readOnly = false;
     fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?consultaCNPJ=' + cnpjValue)
         .then(response => response.json())
         .then(data => {
             cnpjEncontrado = !!data.encontrado;
+            if (data.encontrado && data.cliente) {
+                clienteInput.value = data.cliente;
+                clienteInput.readOnly = true;
+            } else {
+                clienteInput.value = '';
+                clienteInput.readOnly = false;
+            }
             status.textContent = '';
         })
         .catch(() => {
             cnpjEncontrado = false;
+            clienteInput.value = '';
+            clienteInput.readOnly = false;
             status.textContent = '';
         });
 });
