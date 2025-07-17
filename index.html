@@ -15,9 +15,7 @@
         .section-title { font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ''; width: 4px; height: 20px; background: #003366; border-radius: 2px; }
         .form-group { margin-bottom: 20px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .form-row-5-custom { grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr !important; }
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #4a5568; font-size: 14px; }
         input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; background: white; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); transform: translateY(-1px); }
@@ -87,7 +85,7 @@
                 <div class="section">
                     <h2 class="section-title">Informações do Cliente</h2>
                     <div class="form-group">
-                        <div class="form-row-3 form-row-5-custom">
+                        <div class="form-row-3">
                             <div>
                                 <label for="cnpj">CNPJ:</label>
                                 <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
@@ -101,6 +99,8 @@
                                 <label for="nomeContato">Nome:</label>
                                 <input type="text" id="nomeContato" name="name" placeholder="Nome do contato" required>
                             </div>
+                        </div>
+                        <div class="form-row-3">
                             <div>
                                 <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
                                 <input type="text" id="pedidoCompra" placeholder="Número do pedido" required>
