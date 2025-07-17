@@ -73,7 +73,6 @@
             .modal-content { padding: 12px; }
             .items-table th, .items-table td { padding: 8px 4px; }
             .section-title { font-size: 17px; }
-
     </style>
 </head>
 <body>
@@ -88,38 +87,38 @@
                 <div class="section">
                     <div class="form-group">
                         <label for="representante">Representante Comercial:</label>
-                        <input type="text" id="representante" name="cf_vendedor" placeholder="Nome do representante">
+                        <input type="text" id="representante" placeholder="Nome do representante">
                     </div>
                 </div>
                 <!-- Informações do Cliente -->
-<div class="section">
-    <h2 class="section-title">Informações do Cliente</h2>
-    <div class="form-group">
-        <div class="form-row-3 form-row-5-custom">
-<div>
-    <label for="cnpj">CNPJ:</label>
-    <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
-    <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
-</div>
-            <div>
-                <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa">
-            </div>
-            <div>
-                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
-                <input type="text" id="pedidoCompra" name="pedidoCompra" placeholder="Número do pedido">
-            </div>
-            <div>
-                <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000">
-            </div>
-            <div>
-                <label for="email">E-mail Comprador/Financeiro:</label>
-                <input type="email" id="email" name="email" placeholder="email@empresa.com">
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="section">
+                    <h2 class="section-title">Informações do Cliente</h2>
+                    <div class="form-group">
+                        <div class="form-row-3 form-row-5-custom">
+                            <div>
+                                <label for="cnpj">CNPJ:</label>
+                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                                <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
+                            </div>
+                            <div>
+                                <label for="cliente">Cliente:</label>
+                                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa">
+                            </div>
+                            <div>
+                                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
+                                <input type="text" id="pedidoCompra" placeholder="Número do pedido">
+                            </div>
+                            <div>
+                                <label for="telefone">Telefone:</label>
+                                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000">
+                            </div>
+                            <div>
+                                <label for="email">E-mail Comprador/Financeiro:</label>
+                                <input type="email" id="email" name="email" placeholder="email@empresa.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Itens do Pedido -->
                 <div class="section">
                     <h2 class="section-title">Itens do Pedido</h2>
@@ -130,15 +129,17 @@
                                     <th>Qtd.</th>
                                     <th>Produto</th>
                                     <th>Medida</th>
-                                    <th>Impressão</th>
                                     <th>M</th>
+                                    <th>Papel</th>
+                                    <th>Cola</th>
+                                    <th>Impressão</th>
                                     <th>R$ Unit.</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="itemsTableBody">
                                 <tr class="empty-state">
-                                    <td colspan="7">
+                                    <td colspan="9">
                                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
                                         <p>Nenhum item adicionado</p>
                                         <small>Clique em "Adicionar Item" para começar</small>
@@ -166,11 +167,11 @@
                         <div class="form-row">
                             <div>
                                 <label for="dataEmissao">Data de Emissão:</label>
-                                <input type="text" id="dataEmissao" name="dataEmissao" readonly style="background: #f8fafc;">
+                                <input type="text" id="dataEmissao" readonly style="background: #f8fafc;">
                             </div>
                             <div>
                                 <label for="condicoesPagamento">Condições de Pagamento:</label>
-                                <input type="text" id="condicoesPagamento" name="condicoesPagamento" placeholder="Ex: 28 dias">
+                                <input type="text" id="condicoesPagamento" placeholder="Ex: 28 dias">
                             </div>
                         </div>
                     </div>
@@ -179,7 +180,7 @@
                 <div class="section">
                     <h2 class="section-title">Observações</h2>
                     <div class="form-group">
-                        <textarea id="observacoes" name="observacoes" rows="4" placeholder="Observações adicionais sobre o pedido..."></textarea>
+                        <textarea id="observacoes" rows="4" placeholder="Observações adicionais sobre o pedido..."></textarea>
                     </div>
                 </div>
                 <!-- Botões de Ação -->
@@ -223,7 +224,7 @@
                 <div class="form-row">
                     <div>
                         <label for="itemProduto">Produto:</label>
-                        <select name="produto" id="itemProduto">
+                        <select id="itemProduto">
                             <option value="">Selecione o produto</option>
                             <option value="Bob. PDV">Bobina PDV</option>
                             <option value="Bob. REP">Bobina REP</option>
@@ -249,6 +250,19 @@
                     </div>
                 </div>
             </div>
+            <!-- Novos campos: Tipo de Papel e Tipo de Cola -->
+            <div class="form-group">
+                <div class="form-row">
+                    <div>
+                        <label for="itemTipoPapel">Tipo de Papel:</label>
+                        <input type="text" id="itemTipoPapel" placeholder="Ex: Couchê, BOPP, Térmico">
+                    </div>
+                    <div>
+                        <label for="itemTipoCola">Tipo de Cola:</label>
+                        <input type="text" id="itemTipoCola" placeholder="Ex: Permanente, Removível, Acrílica">
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="form-row">
                     <div>
@@ -264,7 +278,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Novo campo 'Detalhes:' -->
             <div class="form-group" id="itemDetalhesGroup" style="display: none;">
                 <label for="itemDetalhes">Detalhes:</label>
                 <input type="text" id="itemDetalhes" placeholder="Detalhes">
@@ -347,18 +360,18 @@
         document.getElementById("telefone").addEventListener("input", function(e) {
             this.value = maskPhone(this.value);
         });
-function maskCNPJ(v) {
-    v = v.replace(/\D/g, "").slice(0,14);
-    if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/, "$1.$2.$3/$4-$5");
-    else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
-    else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
-    else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
-    else v = v.replace(/^(\d{0,2}).*/, "$1");
-    return v;
-}
-document.getElementById("cnpj").addEventListener("input", function(e) {
-    this.value = maskCNPJ(this.value);
-});
+        function maskCNPJ(v) {
+            v = v.replace(/\D/g, "").slice(0,14);
+            if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/, "$1.$2.$3/$4-$5");
+            else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
+            else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
+            else v = v.replace(/^(\d{0,2}).*/, "$1");
+            return v;
+        }
+        document.getElementById("cnpj").addEventListener("input", function(e) {
+            this.value = maskCNPJ(this.value);
+        });
 
         // Função para buscar CNPJ e controlar campo Cliente (com correção para não apagar o valor digitado)
         document.getElementById("cnpj").addEventListener("blur", function() {
@@ -385,77 +398,70 @@ document.getElementById("cnpj").addEventListener("input", function(e) {
                 clienteInput.readOnly = false;
             }
         });
-const cnpjInput = document.getElementById("cnpj");
-const clienteInput = document.getElementById("cliente");
-const cnpjStatus = document.getElementById("cnpj-status");
-const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec";
+        const cnpjInput = document.getElementById("cnpj");
+        const clienteInput = document.getElementById("cliente");
+        const cnpjStatus = document.getElementById("cnpj-status");
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec";
 
-let lastCnpjBuscado = "";
+        let lastCnpjBuscado = "";
 
-cnpjInput.addEventListener("blur", function () {
-    const cnpjValue = this.value.replace(/\D/g, "");
-    if (cnpjValue.length !== 14) {
-        cnpjStatus.textContent = "";
-        clienteInput.readOnly = false;
-        return;
-    }
-
-    // Mostra imediatamente a mensagem e trava o campo Cliente
-    cnpjStatus.textContent = "Procurando CNPJ existente";
-    clienteInput.readOnly = true;
-    lastCnpjBuscado = cnpjValue;
-
-    fetch(`${scriptUrl}?cnpj=${cnpjValue}`)
-        .then(response => response.json())
-        .then(data => {
-            // Só altera se a busca não foi superada por outro input/blur
-            if (lastCnpjBuscado === cnpjValue) {
-                cnpjStatus.textContent = "";
-                if (data.companyName) {
-                    clienteInput.value = data.companyName;
-                    clienteInput.readOnly = true;
-                } else {
-                    clienteInput.readOnly = false;
-                    clienteInput.placeholder = "Digite o nome da empresa/cliente";
-                }
-            }
-        })
-        .catch(error => {
-            if (lastCnpjBuscado === cnpjValue) {
+        cnpjInput.addEventListener("blur", function () {
+            const cnpjValue = this.value.replace(/\D/g, "");
+            if (cnpjValue.length !== 14) {
                 cnpjStatus.textContent = "";
                 clienteInput.readOnly = false;
+                return;
             }
+            cnpjStatus.textContent = "Procurando CNPJ existente";
+            clienteInput.readOnly = true;
+            lastCnpjBuscado = cnpjValue;
+            fetch(`${scriptUrl}?cnpj=${cnpjValue}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (lastCnpjBuscado === cnpjValue) {
+                        cnpjStatus.textContent = "";
+                        if (data.companyName) {
+                            clienteInput.value = data.companyName;
+                            clienteInput.readOnly = true;
+                        } else {
+                            clienteInput.readOnly = false;
+                            clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                        }
+                    }
+                })
+                .catch(error => {
+                    if (lastCnpjBuscado === cnpjValue) {
+                        cnpjStatus.textContent = "";
+                        clienteInput.readOnly = false;
+                    }
+                });
         });
-});
 
-// Opcional: ao começar a digitar um novo CNPJ, limpa mensagem e libera cliente para digitação
-cnpjInput.addEventListener("input", function () {
-    cnpjStatus.textContent = "";
-    clienteInput.readOnly = false;
-});
+        cnpjInput.addEventListener("input", function () {
+            cnpjStatus.textContent = "";
+            clienteInput.readOnly = false;
+        });
 
-function maskMoneyBR(v) {
-    v = v.replace(/\D/g, "");
-    v = (parseInt(v, 10) || 0).toString();
-    if (v.length === 0) return "R$ 0,00";
-    while (v.length < 3) v = "0" + v;
-    let intPart = v.slice(0, v.length - 2);
-    let decPart = v.slice(v.length - 2);
-    intPart = intPart.replace(/^0+/, '') || '0';
-    intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return `R$ ${intPart},${decPart}`;
-}
-const valorUnitarioInput = document.getElementById("itemValorUnitario");
-valorUnitarioInput.addEventListener("input", function() {
-    let cursor = this.selectionStart;
-    let oldLength = this.value.length;
-    this.value = maskMoneyBR(this.value);
-    // Ajusta cursor para evitar "pular"
-    let newLength = this.value.length;
-    this.setSelectionRange(cursor + (newLength - oldLength), cursor + (newLength - oldLength));
-});
+        function maskMoneyBR(v) {
+            v = v.replace(/\D/g, "");
+            v = (parseInt(v, 10) || 0).toString();
+            if (v.length === 0) return "R$ 0,00";
+            while (v.length < 3) v = "0" + v;
+            let intPart = v.slice(0, v.length - 2);
+            let decPart = v.slice(v.length - 2);
+            intPart = intPart.replace(/^0+/, '') || '0';
+            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return `R$ ${intPart},${decPart}`;
+        }
+        const valorUnitarioInput = document.getElementById("itemValorUnitario");
+        valorUnitarioInput.addEventListener("input", function() {
+            let cursor = this.selectionStart;
+            let oldLength = this.value.length;
+            this.value = maskMoneyBR(this.value);
+            let newLength = this.value.length;
+            this.setSelectionRange(cursor + (newLength - oldLength), cursor + (newLength - oldLength));
+        });
 
-        // Exibe/Oculta 'Detalhes' conforme Impressão
         document.getElementById('itemImpressao').addEventListener('change', function() {
             const detalhesGroup = document.getElementById('itemDetalhesGroup');
             detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
@@ -470,12 +476,13 @@ valorUnitarioInput.addEventListener("input", function() {
             document.getElementById('itemUnidade').value = 'rolos';
             document.getElementById('itemProduto').value = '';
             document.getElementById('itemMedidaAdesivo').value = '';
+            document.getElementById('itemTipoPapel').value = '';
+            document.getElementById('itemTipoCola').value = '';
             document.getElementById('itemImpressao').value = 'Lisa';
             document.getElementById('itemMetroRolo').value = '';
             document.getElementById('itemDetalhes').value = '';
             document.getElementById('itemDetalhesGroup').style.display = 'none';
             document.getElementById('itemValorUnitario').value = '';
-            // Restaura o botão do modal para Adicionar Item
             let actions = document.querySelector('#itemModal .modal-actions');
             actions.innerHTML = `
                 <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
@@ -488,36 +495,35 @@ valorUnitarioInput.addEventListener("input", function() {
             const unidade = document.getElementById('itemUnidade').value;
             const produto = document.getElementById('itemProduto').value;
             const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+            const tipoPapel = document.getElementById('itemTipoPapel').value;
+            const tipoCola = document.getElementById('itemTipoCola').value;
             const impressao = document.getElementById('itemImpressao').value;
             const detalhes = document.getElementById('itemDetalhes').value;
             const metroRolo = document.getElementById('itemMetroRolo').value;
             const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
-const valorUnitario = parseFloat(valorUnitarioStr) || 0;
-
-
+            const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             if (!quantidade || !produto || !valorUnitario) {
                 alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
                 return;
             }
-            items.push({ quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario });
+            items.push({ quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario });
             updateItemsTable();
             closeItemModal();
         }
 
-        // Função de editar item
         function editItem(index) {
             const item = items[index];
-            // Abre o modal e preenche os campos com os valores do item selecionado
             document.getElementById('itemQtd').value = item.quantidade;
             document.getElementById('itemUnidade').value = item.unidade;
             document.getElementById('itemProduto').value = item.produto;
             document.getElementById('itemMedidaAdesivo').value = item.medidaAdesivo;
+            document.getElementById('itemTipoPapel').value = item.tipoPapel || "";
+            document.getElementById('itemTipoCola').value = item.tipoCola || "";
             document.getElementById('itemImpressao').value = item.impressao;
             document.getElementById('itemMetroRolo').value = item.metroRolo;
             document.getElementById('itemValorUnitario').value = item.valorUnitario;
             document.getElementById('itemDetalhes').value = item.detalhes || "";
             document.getElementById('itemDetalhesGroup').style.display = (item.impressao === 'Pers.') ? 'block' : 'none';
-            // Altera o botão do modal para "Salvar"
             let actions = document.querySelector('#itemModal .modal-actions');
             actions.innerHTML = `
                 <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
@@ -526,26 +532,24 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             openItemModal();
         }
         function saveItem(index) {
-            // Atualiza o item editado
             const quantidade = parseFloat(document.getElementById('itemQtd').value);
             const unidade = document.getElementById('itemUnidade').value;
             const produto = document.getElementById('itemProduto').value;
             const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+            const tipoPapel = document.getElementById('itemTipoPapel').value;
+            const tipoCola = document.getElementById('itemTipoCola').value;
             const impressao = document.getElementById('itemImpressao').value;
             const detalhes = document.getElementById('itemDetalhes').value;
             const metroRolo = document.getElementById('itemMetroRolo').value;
             const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
-const valorUnitario = parseFloat(valorUnitarioStr) || 0;
-
-
+            const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             if (!quantidade || !produto || !valorUnitario) {
                 alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
                 return;
             }
-            items[index] = { quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario };
+            items[index] = { quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario };
             updateItemsTable();
             closeItemModal();
-            // Restaura o botão do modal para Adicionar Item
             let actions = document.querySelector('#itemModal .modal-actions');
             actions.innerHTML = `
                 <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
@@ -568,6 +572,8 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                     <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
                     <p><strong>Produto:</strong> ${item.produto}</p>
                     <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
+                    <p><strong>Tipo de Papel:</strong> ${item.tipoPapel || ""}</p>
+                    <p><strong>Tipo de Cola:</strong> ${item.tipoCola || ""}</p>
                     <p><strong>Impressão:</strong> ${item.impressao}</p>
                     ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
                     <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
@@ -586,7 +592,7 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             if (items.length === 0) {
                 tableBody.innerHTML = `
                     <tr class="empty-state">
-                        <td colspan="7">
+                        <td colspan="9">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
                             <p>Nenhum item adicionado</p>
                             <small>Clique em "Adicionar Item" para começar</small>
@@ -600,8 +606,10 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                         <td>${item.quantidade} ${item.unidade}</td>
                         <td>${item.produto}</td>
                         <td>${item.medidaAdesivo}</td>
-                        <td>${item.impressao}</td>
                         <td>${item.metroRolo}</td>
+                        <td>${item.tipoPapel || ""}</td>
+                        <td>${item.tipoCola || ""}</td>
+                        <td>${item.impressao}</td>
                         <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
                         <td>
                             <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
@@ -627,7 +635,6 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             }
             let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
             let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
-
             items.forEach(item => {
                 if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
                     const p = item.produto.toLowerCase();
@@ -637,7 +644,6 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                     else if (p.includes('ribbon')) cxRibbons += item.quantidade;
                 }
             });
-
             summaryHTML += `
                 <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
                     <strong style="font-size:18px;">Qtd total:</strong><br>
@@ -672,33 +678,27 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
         });
 
-        // Data de emissão com horário
         function formatDateTimeBR(dt) {
             const pad = n => n.toString().padStart(2, '0');
             return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
                 + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
         }
 
-        // Modal de loading e sucesso
         function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
         function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
         function hideSuccess() {
             document.getElementById('successModal').style.display = 'none';
-            document.getElementById('pedidoForm').submit(); // Envia o RD Station só depois do OK!
+            document.getElementById('pedidoForm').submit();
         }
 
-        // Delay entre requisições para Make
         function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
         document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
             var btn = this.querySelector('[type="submit"]');
             if (btn) btn.disabled = true;
             e.preventDefault();
-
             showLoading();
-
-            // Validação telefone
             const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
             if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
                 hideLoading();
@@ -706,8 +706,6 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                 if (btn) btn.disabled = false;
                 return;
             }
-
-            // Dados do formulário
             const representante = document.getElementById('representante').value;
             const cliente = document.getElementById('cliente').value;
             const pedidoCompra = document.getElementById('pedidoCompra').value;
@@ -717,8 +715,6 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
             const dataEmissao = document.getElementById('dataEmissao').value;
             const condicoesPagamento = document.getElementById('condicoesPagamento').value;
             const observacoes = document.getElementById('observacoes').value;
-
-            // Envia cada item para o webhook Make com delay de 1 segundo
             try {
                 for (let i = 0; i < items.length; i++) {
                     const item = items[i];
@@ -736,6 +732,8 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                         unidade: item.unidade,
                         produto: item.produto,
                         medida: item.medidaAdesivo,
+                        tipoPapel: item.tipoPapel,
+                        tipoCola: item.tipoCola,
                         impressao: item.impressao,
                         detalhes: item.detalhes,
                         metroRolo: item.metroRolo,
@@ -746,7 +744,7 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    if (i < items.length - 1) await sleep(1000); // Delay de 1s, exceto após o último
+                    if (i < items.length - 1) await sleep(1000);
                 }
             } catch (err) {
                 hideLoading();
@@ -754,12 +752,9 @@ const valorUnitario = parseFloat(valorUnitarioStr) || 0;
                 if (btn) btn.disabled = false;
                 return;
             }
-
             hideLoading();
             showSuccess();
-
             if (btn) btn.disabled = false;
-            // O submit do RD Station só é disparado ao clicar em OK na tela de sucesso!
         });
     </script>
     <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
