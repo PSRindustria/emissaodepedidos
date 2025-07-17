@@ -295,6 +295,11 @@
                     </div>
                 </div>
             </div>
+            <!-- Detalhes Personalização -->
+            <div class="form-group" id="itemDetalhesGroup" style="display:none;">
+                <label for="itemDetalhes">Detalhes:</label>
+                <input type="text" id="itemDetalhes" placeholder="Detalhes da personalização">
+            </div>
             <!-- Valor Unitário -->
             <div class="form-group">
                 <label for="itemValorUnitario">Valor Unitário do Rolo (R$):</label>
@@ -325,16 +330,25 @@
 </div>
 
 <script>
-/** -------------- VARIÁVEIS GLOBAIS -------------- **/
 let items = [];
 let editingIndex = -1;
 let cnpjEncontrado = false;
+
+// Mostrar/esconder campo Detalhes ao mudar Impressão
+document.getElementById('itemImpressao').addEventListener('change', function(){
+    const detalhesGroup = document.getElementById('itemDetalhesGroup');
+    if(this.value === "Pers.") {
+        detalhesGroup.style.display = "";
+    } else {
+        detalhesGroup.style.display = "none";
+        document.getElementById('itemDetalhes').value = "";
+    }
+});
 
 /** -------------- MODAL ITEM -------------- **/
 function openItemModal(index = null) {
     document.getElementById('itemModal').style.display = 'block';
     if (index !== null && items[index]) {
-        // Editar
         editingIndex = index;
         const item = items[index];
         document.getElementById('itemQtd').value = item.quantidade;
@@ -346,6 +360,13 @@ function openItemModal(index = null) {
         document.getElementById('itemImpressao').value = item.impressao;
         document.getElementById('itemMetroRolo').value = item.metroRolo;
         document.getElementById('itemValorUnitario').value = item.valorUnitario;
+        document.getElementById('itemDetalhes').value = item.detalhes || '';
+        // Forçar exibir campo Detalhes se for Personalizada
+        if(item.impressao === "Pers.") {
+            document.getElementById('itemDetalhesGroup').style.display = "";
+        } else {
+            document.getElementById('itemDetalhesGroup').style.display = "none";
+        }
     } else {
         editingIndex = -1;
         document.getElementById('itemQtd').value = '';
@@ -357,6 +378,8 @@ function openItemModal(index = null) {
         document.getElementById('itemImpressao').value = 'Lisa';
         document.getElementById('itemMetroRolo').value = '';
         document.getElementById('itemValorUnitario').value = '';
+        document.getElementById('itemDetalhes').value = '';
+        document.getElementById('itemDetalhesGroup').style.display = "none";
     }
 }
 function closeItemModal() {
@@ -364,7 +387,6 @@ function closeItemModal() {
 }
 
 function addItem() {
-    // Coleta campos do modal
     const item = {
         quantidade: Number(document.getElementById('itemQtd').value) || 0,
         unidade: document.getElementById('itemUnidade').value,
@@ -377,11 +399,15 @@ function addItem() {
         valorUnitario: parseFloat(
             document.getElementById('itemValorUnitario').value
                 .replace('R$', '').replace('.', '').replace(',', '.').trim()
-        ) || 0
+        ) || 0,
+        detalhes: document.getElementById('itemDetalhes').value || ''
     };
-    // Validação obrigatórios
     if (!item.quantidade || !item.unidade || !item.produto || !item.medidaAdesivo || !item.impressao || !item.metroRolo) {
         alert('Preencha todos os campos obrigatórios.');
+        return;
+    }
+    if (item.impressao === "Pers." && !item.detalhes.trim()) {
+        alert('Preencha o campo Detalhes.');
         return;
     }
     if (editingIndex > -1) {
@@ -424,7 +450,7 @@ function updateItemsTable() {
                 <td>${item.metroRolo}</td>
                 <td>${item.tipoPapel || ""}</td>
                 <td>${item.tipoCola || ""}</td>
-                <td>${item.impressao}</td>
+                <td>${item.impressao}${item.detalhes ? `<br><span style="font-size:11px;color:#888;">${item.detalhes}</span>` : ''}</td>
                 <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
                 <td>
                     <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
@@ -468,7 +494,6 @@ function updateTotal() {
     summaryElement.innerHTML = summaryHTML;
 }
 
-/** -------------- MODAIS DE LOADING/SUCESSO -------------- **/
 function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
 function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
 function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
@@ -479,8 +504,6 @@ function hideSuccess() {
     updateItemsTable();
     document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
 }
-
-/** -------------- FORMATAÇÃO DATA E MÁSCARAS -------------- **/
 function formatDateTimeBR(dt) {
     const pad = n => n.toString().padStart(2, '0');
     return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
@@ -490,8 +513,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
     updateItemsTable();
 });
-
-/** -------------- MÁSCARA DE DINHEIRO (VALOR UNITÁRIO) -------------- **/
 document.getElementById("itemValorUnitario").addEventListener("input", function() {
     let v = this.value.replace(/\D/g, "");
     if (!v) v = "0";
@@ -503,8 +524,6 @@ document.getElementById("itemValorUnitario").addEventListener("input", function(
     intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     this.value = `R$ ${intPart},${decPart}`;
 });
-
-/** -------------- LIMPAR FORMULÁRIO -------------- **/
 function confirmClearForm() {
     if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
         document.getElementById('pedidoForm').reset();
@@ -514,7 +533,7 @@ function confirmClearForm() {
     }
 }
 
-/** -------------- CHECAGEM DE CNPJ (SIMULAÇÃO) -------------- **/
+// CONSULTA REAL AO GOOGLE SHEETS (com mensagem enquanto busca)
 document.getElementById('cnpj').addEventListener('blur', function () {
     const cnpjValue = this.value.replace(/\D/g, "");
     let status = document.getElementById('cnpj-status');
@@ -523,33 +542,30 @@ document.getElementById('cnpj').addEventListener('blur', function () {
         cnpjEncontrado = false;
         return;
     }
-    status.textContent = "Procurando CNPJ existente...";
-    // Simulação: marque como encontrado se CNPJ termina em 0001
-    setTimeout(() => {
-        if (cnpjValue.endsWith("0001")) {
-            cnpjEncontrado = true;
-            status.textContent = "CNPJ encontrado no banco de dados!";
-        } else {
+    status.textContent = "Procurando CNPJ existente.";
+    fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?consultaCNPJ=' + cnpjValue)
+        .then(response => response.json())
+        .then(data => {
+            cnpjEncontrado = !!data.encontrado;
+            status.textContent = '';
+        })
+        .catch(() => {
             cnpjEncontrado = false;
-            status.textContent = "CNPJ não cadastrado. Será enviado ao RD Station!";
-        }
-    }, 700);
+            status.textContent = '';
+        });
 });
 
-/** -------------- ENVIO AO RD STATION (SIMPLIFICADO) -------------- **/
 document.getElementById('pedidoForm').addEventListener('submit', function(e) {
     e.preventDefault();
     showLoading();
 
     setTimeout(() => {
-        // Coleta dados
         let cnpj = document.getElementById('cnpj').value.trim();
         let cliente = document.getElementById('cliente').value.trim();
         let email = document.getElementById('email').value.trim();
         let telefone = document.getElementById('telefone').value.trim();
         let nome = document.getElementById('nomeContato').value.trim();
 
-        // Prepara dados para envio
         let dados = {
             cliente: cliente,
             email: email,
@@ -559,15 +575,12 @@ document.getElementById('pedidoForm').addEventListener('submit', function(e) {
         if (!cnpjEncontrado) {
             dados.cnpj = cnpj;
         }
-        // Simula envio ao RD Station
         setTimeout(() => {
             hideLoading();
             showSuccess();
         }, 1000);
     }, 800);
 });
-
-/** -------------- MODAIS FECHAMENTO EXTERNO -------------- **/
 window.onclick = function(event) {
     if (event.target === document.getElementById('itemModal')) closeItemModal();
     if (event.target === document.getElementById('loadingModal')) hideLoading();
