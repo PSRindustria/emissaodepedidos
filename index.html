@@ -100,12 +100,16 @@
                                 <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa" required>
                             </div>
                             <div>
+                                <label for="nomeContato">Nome:</label>
+                                <input type="text" id="nomeContato" name="name" placeholder="Nome do contato" required>
+                            </div>
+                            <div>
                                 <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
                                 <input type="text" id="pedidoCompra" placeholder="Número do pedido" required>
                             </div>
                             <div>
                                 <label for="telefone">Telefone:</label>
-                                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000" required>
+                                <input type="tel" id="telefone" name="personal_phone" placeholder="(00) 00000-0000" required>
                             </div>
                             <div>
                                 <label for="email">E-mail Comprador/Financeiro:</label>
@@ -246,7 +250,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tipo de Papel e Tipo de Cola: NÃO obrigatórios -->
             <div class="form-group">
                 <div class="form-row">
                     <div>
@@ -300,20 +303,6 @@
             <div class="modal-actions">
                 <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
                 <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Resumo de Item -->
-    <div id="itemSummaryModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Resumo do Item</h3>
-                <button type="button" class="close-btn" onclick="closeItemSummaryModal()">&times;</button>
-            </div>
-            <div id="itemSummaryContent"></div>
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" onclick="closeItemSummaryModal()">Fechar</button>
             </div>
         </div>
     </div>
@@ -398,29 +387,55 @@
             this.value = maskCNPJ(this.value);
         });
 
-        // Busca CNPJ e controla campo Cliente
-        document.getElementById("cnpj").addEventListener("blur", function() {
-            const cnpjInput = this.value.replace(/\D/g, "");
+        document.addEventListener('DOMContentLoaded', () => {
+            updateItemsTable();
+            document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
+
+            // Busca CNPJ + mensagem de status
+            const cnpjInput = document.getElementById("cnpj");
             const clienteInput = document.getElementById("cliente");
+            const cnpjStatus = document.getElementById("cnpj-status");
             const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec";
-            if (cnpjInput.length === 14) {
-                fetch(`${scriptUrl}?cnpj=${cnpjInput}`)
+            let lastCnpjBuscado = "";
+
+            cnpjInput.addEventListener("blur", function () {
+                const cnpjValue = this.value.replace(/\D/g, "");
+                if (cnpjValue.length !== 14) {
+                    cnpjStatus.textContent = "";
+                    clienteInput.readOnly = false;
+                    return;
+                }
+
+                cnpjStatus.textContent = "Procurando CNPJ existente";
+                clienteInput.readOnly = true;
+                lastCnpjBuscado = cnpjValue;
+
+                fetch(`${scriptUrl}?cnpj=${cnpjValue}`)
                     .then(response => response.json())
                     .then(data => {
-                        if (data.companyName) {
-                            clienteInput.value = data.companyName;
-                            clienteInput.readOnly = true;
-                        } else {
-                            clienteInput.readOnly = false;
-                            clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                        if (lastCnpjBuscado === cnpjValue) {
+                            cnpjStatus.textContent = "";
+                            if (data.companyName) {
+                                clienteInput.value = data.companyName;
+                                clienteInput.readOnly = true;
+                            } else {
+                                clienteInput.readOnly = false;
+                                clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                            }
                         }
                     })
                     .catch(error => {
-                        clienteInput.readOnly = false;
+                        if (lastCnpjBuscado === cnpjValue) {
+                            cnpjStatus.textContent = "";
+                            clienteInput.readOnly = false;
+                        }
                     });
-            } else {
+            });
+
+            cnpjInput.addEventListener("input", function () {
+                cnpjStatus.textContent = "";
                 clienteInput.readOnly = false;
-            }
+            });
         });
 
         function maskMoneyBR(v) {
@@ -598,151 +613,101 @@
                         <td>${item.impressao}</td>
                         <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
                         <td>
-    <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
-    <button type="button" class="edit-item" onclick="editItem(${index})" style="margin-left:5px;">&#9998;</button>
-</td>
-`;
-row.addEventListener('click', e => {
-    if (
-        !e.target.classList.contains('remove-item') &&
-        !e.target.classList.contains('edit-item')
-    ) openItemSummaryModal(item);
-});
-});
-}
-updateTotal();
-}
+                            <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
+                            <button type="button" class="edit-item" onclick="editItem(${index})" style="margin-left:5px;">&#9998;</button>
+                        </td>
+                    `;
+                    row.addEventListener('click', e => {
+                        if (
+                            !e.target.classList.contains('remove-item') &&
+                            !e.target.classList.contains('edit-item')
+                        ) openItemSummaryModal(item);
+                    });
+                });
+            }
+            updateTotal();
+        }
 
-function updateTotal() {
-const summaryElement = document.getElementById('orderSummary');
-if (items.length === 0) {
-    summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
-    return;
-}
-let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
-let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
-items.forEach(item => {
-    if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
-        const p = item.produto.toLowerCase();
-        if (p.includes('bob.')) cxBobinas += item.quantidade;
-        else if (p.includes('etq')) cxEtiquetas += item.quantidade;
-        else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
-        else if (p.includes('ribbon')) cxRibbons += item.quantidade;
-    }
-});
-summaryHTML += `
-    <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
-        <strong style="font-size:18px;">Qtd total:</strong><br>
-        <span style="font-size:16px;">
-            Qtd de Bobinas: ${cxBobinas} |
-            Qtd de Etiquetas: ${cxEtiquetas} |
-            Qtd de Rótulos: ${cxRotulos} |
-            Qtd de Ribbons: ${cxRibbons}
-        </span>
-    </div>
-`;
-summaryHTML += '</div>';
-summaryElement.innerHTML = summaryHTML;
-}
+        function updateTotal() {
+            const summaryElement = document.getElementById('orderSummary');
+            if (items.length === 0) {
+                summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
+                return;
+            }
+            let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
+            let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
+            items.forEach(item => {
+                if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
+                    const p = item.produto.toLowerCase();
+                    if (p.includes('bob.')) cxBobinas += item.quantidade;
+                    else if (p.includes('etq')) cxEtiquetas += item.quantidade;
+                    else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
+                    else if (p.includes('ribbon')) cxRibbons += item.quantidade;
+                }
+            });
+            summaryHTML += `
+                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
+                    <strong style="font-size:18px;">Qtd total:</strong><br>
+                    <span style="font-size:16px;">
+                        Qtd de Bobinas: ${cxBobinas} |
+                        Qtd de Etiquetas: ${cxEtiquetas} |
+                        Qtd de Rótulos: ${cxRotulos} |
+                        Qtd de Ribbons: ${cxRibbons}
+                    </span>
+                </div>
+            `;
+            summaryHTML += '</div>';
+            summaryElement.innerHTML = summaryHTML;
+        }
 
-function confirmClearForm() {
-if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
-    document.getElementById('pedidoForm').reset();
-    items = [];
-    updateItemsTable();
-    document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
-}
-}
+        function confirmClearForm() {
+            if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
+                document.getElementById('pedidoForm').reset();
+                items = [];
+                updateItemsTable();
+                document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
+            }
+        }
 
-window.onclick = function(event) {
-if (event.target === document.getElementById('itemModal')) closeItemModal();
-if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-updateItemsTable();
-document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
-});
-
-function formatDateTimeBR(dt) {
-const pad = n => n.toString().padStart(2, '0');
-return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
-    + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
-}
-
-function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
-function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
-function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
-function hideSuccess() {
-document.getElementById('successModal').style.display = 'none';
-document.getElementById('pedidoForm').submit();
-}
-
-function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
-var btn = this.querySelector('[type="submit"]');
-if (btn) btn.disabled = true;
-e.preventDefault();
-showLoading();
-const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
-if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
-    hideLoading();
-    alert('Digite um telefone válido (com DDD).');
-    if (btn) btn.disabled = false;
-    return;
-}
-const representante = document.getElementById('representante').value;
-const cliente = document.getElementById('cliente').value;
-const pedidoCompra = document.getElementById('pedidoCompra').value;
-const telefone = document.getElementById('telefone').value;
-const cnpj = document.getElementById('cnpj').value;
-const email = document.getElementById('email').value;
-const dataEmissao = document.getElementById('dataEmissao').value;
-const condicoesPagamento = document.getElementById('condicoesPagamento').value;
-const observacoes = document.getElementById('observacoes').value;
-try {
-    for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const payload = {
-            representante,
-            cliente,
-            pedidoCompra,
-            telefone,
-            cnpj,
-            email,
-            dataEmissao,
-            condicoesPagamento,
-            observacoes,
-            qtd: item.quantidade,
-            unidade: item.unidade,
-            produto: item.produto,
-            medida: item.medidaAdesivo,
-            tipoPapel: item.tipoPapel,
-            tipoCola: item.tipoCola,
-            impressao: item.impressao,
-            detalhes: item.detalhes,
-            metroRolo: item.metroRolo,
-            valorUnitario: item.valorUnitario
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('itemModal')) closeItemModal();
+            if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
         };
-        await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+
+        function formatDateTimeBR(dt) {
+            const pad = n => n.toString().padStart(2, '0');
+            return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
+                + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
+        }
+
+        function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
+        function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
+        function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
+        function hideSuccess() {
+            document.getElementById('successModal').style.display = 'none';
+            document.getElementById('pedidoForm').submit();
+        }
+
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+        document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+            var btn = this.querySelector('[type="submit"]');
+            if (btn) btn.disabled = true;
+            e.preventDefault();
+            showLoading();
+            const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
+            if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
+                hideLoading();
+                alert('Digite um telefone válido (com DDD).');
+                if (btn) btn.disabled = false;
+                return;
+            }
+            // Envio RD Station - Apenas os campos com name (cf_cnpj, company_name, name, personal_phone, email)
+            hideLoading();
+            showSuccess();
+            if (btn) btn.disabled = false;
         });
-        if (i < items.length - 1) await sleep(1000);
-    }
-} catch (err) {
-    hideLoading();
-    alert('Ocorreu um erro ao enviar para o Make. Por favor, tente novamente.');
-    if (btn) btn.disabled = false;
-    return;
-}
-hideLoading();
-showSuccess();
-if (btn) btn.disabled = false;
-});
-</script>
-<script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
+    </script>
+    <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 </body>
 </html>
