@@ -9,7 +9,6 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; min-height: 100vh; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: #003366; padding: 30px 30px 15px 30px; color: white; text-align: center; }
-        .header-logo { width: 200px; height: 70px; background: #f0f0f0; border: 2px dashed #ccc; border-radius: 8px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
         .header h1 { font-size: 28px; margin-bottom: 8px; font-weight: 600; padding-top: 15px; }
         .form-content { padding: 40px; }
         .section { margin-bottom: 40px; }
@@ -18,7 +17,7 @@
         .form-group { margin-bottom: 20px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
+        .form-row-5-custom { grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr !important; }
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #4a5568; font-size: 14px; }
         input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; background: white; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); transform: translateY(-1px); }
@@ -33,8 +32,6 @@
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3); background: #002244; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; }
         .btn-secondary:hover { background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .btn-danger { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
-        .btn-danger:hover { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
         .btn-orange { background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%); color: white; }
         .btn-orange:hover { background: linear-gradient(135deg, #ff7700 0%, #ff5500 100%); box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3); }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(4px); }
@@ -68,6 +65,7 @@
             .modal-content { padding: 12px; }
             .items-table th, .items-table td { padding: 8px 4px; }
             .section-title { font-size: 17px; }
+        }
     </style>
 </head>
 <body>
@@ -356,8 +354,8 @@
 
     <script>
         let items = [];
+        let cnpjEncontrado = false;
 
-        // Máscara telefone fixo/celular
         function maskPhone(v) {
             v = v.replace(/\D/g,"").slice(0,11);
             if (v.length > 10) {
@@ -391,7 +389,6 @@
             updateItemsTable();
             document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
 
-            // Busca CNPJ + mensagem de status
             const cnpjInput = document.getElementById("cnpj");
             const clienteInput = document.getElementById("cliente");
             const cnpjStatus = document.getElementById("cnpj-status");
@@ -403,9 +400,9 @@
                 if (cnpjValue.length !== 14) {
                     cnpjStatus.textContent = "";
                     clienteInput.readOnly = false;
+                    cnpjEncontrado = false;
                     return;
                 }
-
                 cnpjStatus.textContent = "Procurando CNPJ existente";
                 clienteInput.readOnly = true;
                 lastCnpjBuscado = cnpjValue;
@@ -418,9 +415,11 @@
                             if (data.companyName) {
                                 clienteInput.value = data.companyName;
                                 clienteInput.readOnly = true;
+                                cnpjEncontrado = true;
                             } else {
                                 clienteInput.readOnly = false;
                                 clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                                cnpjEncontrado = false;
                             }
                         }
                     })
@@ -428,6 +427,7 @@
                         if (lastCnpjBuscado === cnpjValue) {
                             cnpjStatus.textContent = "";
                             clienteInput.readOnly = false;
+                            cnpjEncontrado = false;
                         }
                     });
             });
@@ -435,33 +435,11 @@
             cnpjInput.addEventListener("input", function () {
                 cnpjStatus.textContent = "";
                 clienteInput.readOnly = false;
+                cnpjEncontrado = false;
             });
         });
 
-        function maskMoneyBR(v) {
-            v = v.replace(/\D/g, "");
-            v = (parseInt(v, 10) || 0).toString();
-            if (v.length === 0) return "R$ 0,00";
-            while (v.length < 3) v = "0" + v;
-            let intPart = v.slice(0, v.length - 2);
-            let decPart = v.slice(v.length - 2);
-            intPart = intPart.replace(/^0+/, '') || '0';
-            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            return `R$ ${intPart},${decPart}`;
-        }
-        document.getElementById("itemValorUnitario").addEventListener("input", function() {
-            let cursor = this.selectionStart;
-            let oldLength = this.value.length;
-            this.value = maskMoneyBR(this.value);
-            let newLength = this.value.length;
-            this.setSelectionRange(cursor + (newLength - oldLength), cursor + (newLength - oldLength));
-        });
-
-        document.getElementById('itemImpressao').addEventListener('change', function() {
-            const detalhesGroup = document.getElementById('itemDetalhesGroup');
-            detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
-        });
-
+        // Todas as funções dos itens/modal abaixo!
         function openItemModal() {
             document.getElementById('itemModal').style.display = 'block';
         }
@@ -484,7 +462,10 @@
                 <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
             `;
         }
-
+        document.getElementById('itemImpressao').addEventListener('change', function() {
+            const detalhesGroup = document.getElementById('itemDetalhesGroup');
+            detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
+        });
         function addItem() {
             const quantidade = parseFloat(document.getElementById('itemQtd').value);
             const unidade = document.getElementById('itemUnidade').value;
@@ -497,18 +478,14 @@
             const metroRolo = document.getElementById('itemMetroRolo').value;
             const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
             const valorUnitario = parseFloat(valorUnitarioStr) || 0;
-
-            // Validação dos campos obrigatórios (exceto Detalhes, Tipo de Papel, Tipo de Cola)
             if (!quantidade || !unidade || !produto || !medidaAdesivo || !impressao || !metroRolo || !valorUnitario) {
                 alert('Preencha todos os campos obrigatórios!');
                 return;
             }
-
             items.push({ quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario });
             updateItemsTable();
             closeItemModal();
         }
-
         function editItem(index) {
             const item = items[index];
             document.getElementById('itemQtd').value = item.quantidade;
@@ -541,13 +518,10 @@
             const metroRolo = document.getElementById('itemMetroRolo').value;
             const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
             const valorUnitario = parseFloat(valorUnitarioStr) || 0;
-
-            // Validação dos campos obrigatórios (exceto Detalhes, Tipo de Papel, Tipo de Cola)
             if (!quantidade || !unidade || !produto || !medidaAdesivo || !impressao || !metroRolo || !valorUnitario) {
                 alert('Preencha todos os campos obrigatórios!');
                 return;
             }
-
             items[index] = { quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario };
             updateItemsTable();
             closeItemModal();
@@ -557,14 +531,12 @@
                 <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
             `;
         }
-
         function removeItem(index) {
             if (confirm('Tem certeza que deseja remover este item?')) {
                 items.splice(index, 1);
                 updateItemsTable();
             }
         }
-
         function openItemSummaryModal(item) {
             const modal = document.getElementById('itemSummaryModal');
             const content = document.getElementById('itemSummaryContent');
@@ -586,7 +558,6 @@
         function closeItemSummaryModal() {
             document.getElementById('itemSummaryModal').style.display = 'none';
         }
-
         function updateItemsTable() {
             const tableBody = document.getElementById('itemsTableBody');
             tableBody.innerHTML = '';
@@ -627,7 +598,6 @@
             }
             updateTotal();
         }
-
         function updateTotal() {
             const summaryElement = document.getElementById('orderSummary');
             if (items.length === 0) {
@@ -659,7 +629,6 @@
             summaryHTML += '</div>';
             summaryElement.innerHTML = summaryHTML;
         }
-
         function confirmClearForm() {
             if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
                 document.getElementById('pedidoForm').reset();
@@ -668,18 +637,15 @@
                 document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
             }
         }
-
         window.onclick = function(event) {
             if (event.target === document.getElementById('itemModal')) closeItemModal();
             if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
         };
-
         function formatDateTimeBR(dt) {
             const pad = n => n.toString().padStart(2, '0');
             return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
                 + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
         }
-
         function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
         function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
@@ -687,10 +653,7 @@
             document.getElementById('successModal').style.display = 'none';
             document.getElementById('pedidoForm').submit();
         }
-
-        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-        document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
             var btn = this.querySelector('[type="submit"]');
             if (btn) btn.disabled = true;
             e.preventDefault();
@@ -702,11 +665,34 @@
                 if (btn) btn.disabled = false;
                 return;
             }
-            // Envio RD Station - Apenas os campos com name (cf_cnpj, company_name, name, personal_phone, email)
+            const cnpjInput = document.getElementById('cnpj');
+            if (!cnpjEncontrado) {
+                cnpjInput.setAttribute('name', 'cf_cnpj');
+            } else {
+                cnpjInput.removeAttribute('name');
+            }
             hideLoading();
             showSuccess();
             if (btn) btn.disabled = false;
         });
+        document.getElementById("itemValorUnitario").addEventListener("input", function() {
+            let cursor = this.selectionStart;
+            let oldLength = this.value.length;
+            this.value = maskMoneyBR(this.value);
+            let newLength = this.value.length;
+            this.setSelectionRange(cursor + (newLength - oldLength), cursor + (newLength - oldLength));
+        });
+        function maskMoneyBR(v) {
+            v = v.replace(/\D/g, "");
+            v = (parseInt(v, 10) || 0).toString();
+            if (v.length === 0) return "R$ 0,00";
+            while (v.length < 3) v = "0" + v;
+            let intPart = v.slice(0, v.length - 2);
+            let decPart = v.slice(v.length - 2);
+            intPart = intPart.replace(/^0+/, '') || '0';
+            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return `R$ ${intPart},${decPart}`;
+        }
     </script>
     <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 </body>
