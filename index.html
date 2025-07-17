@@ -6,21 +6,27 @@
     <title>Formulário de Pedido - PSR Etiquetas</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; min-height: 100vh; padding: 20px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: #003366; padding: 30px 30px 15px 30px; color: white; text-align: center; }
+        .header-logo { width: 200px; height: 70px; background: #f0f0f0; border: 2px dashed #ccc; border-radius: 8px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
         .header h1 { font-size: 28px; margin-bottom: 8px; font-weight: 600; padding-top: 15px; }
         .form-content { padding: 40px; }
         .section { margin-bottom: 40px; }
         .section-title { font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ''; width: 4px; height: 20px; background: #003366; border-radius: 2px; }
         .form-group { margin-bottom: 20px; }
-        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #4a5568; font-size: 14px; }
         input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; background: white; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1); transform: translateY(-1px); }
-        textarea { resize: vertical; }
         .items-section { background: #f8fafc; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
         .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .items-table th { background: #003366; color: white; padding: 15px 10px; text-align: left; font-weight: 500; font-size: 14px; }
@@ -32,6 +38,8 @@
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3); background: #002244; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; }
         .btn-secondary:hover { background: #cbd5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-danger { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
+        .btn-danger:hover { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
         .btn-orange { background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%); color: white; }
         .btn-orange:hover { background: linear-gradient(135deg, #ff7700 0%, #ff5500 100%); box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3); }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(4px); }
@@ -53,7 +61,7 @@
             .form-content { padding: 20px; }
             .header { padding: 20px; }
             .header h1 { font-size: 24px; }
-            .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
+            .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
             .items-table { font-size: 14px; }
             .items-table th, .items-table td { padding: 10px 6px; }
             .modal-content { width: 95%; padding: 20px; }
@@ -65,7 +73,7 @@
             .modal-content { padding: 12px; }
             .items-table th, .items-table td { padding: 8px 4px; }
             .section-title { font-size: 17px; }
-        }
+
     </style>
 </head>
 <body>
@@ -80,62 +88,61 @@
                 <div class="section">
                     <div class="form-group">
                         <label for="representante">Representante Comercial:</label>
-                        <input type="text" id="representante" placeholder="Nome do representante" required>
+                        <input type="text" id="representante" placeholder="Nome do representante">
                     </div>
                 </div>
                 <!-- Informações do Cliente -->
-                <div class="section">
-                    <h2 class="section-title">Informações do Cliente</h2>
-                    <div class="form-group">
-                        <div class="form-row-3">
-                            <div>
-                                <label for="cnpj">CNPJ:</label>
-                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
-                                <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
-                            </div>
-                            <div>
-                                <label for="cliente">Cliente:</label>
-                                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa" required>
-                            </div>
-                            <div>
-                                <label for="nomeContato">Nome:</label>
-                                <input type="text" id="nomeContato" name="name" placeholder="Nome do contato" required>
-                            </div>
-                        </div>
-                        <div class="form-row-3">
-                            <div>
-                                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
-                                <input type="text" id="pedidoCompra" placeholder="Número do pedido" required>
-                            </div>
-                            <div>
-                                <label for="telefone">Telefone:</label>
-                                <input type="tel" id="telefone" name="personal_phone" placeholder="(00) 00000-0000" required>
-                            </div>
-                            <div>
-                                <label for="email">E-mail Comprador/Financeiro:</label>
-                                <input type="email" id="email" name="email" placeholder="email@empresa.com" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="section">
+    <h2 class="section-title">Informações do Cliente</h2>
+    <div class="form-group">
+        <div class="form-row-3 form-row-5-custom">
+<div>
+    <label for="cnpj">CNPJ:</label>
+    <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+    <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
+</div>
+           <div>
+    <label for="cliente">Cliente/Empresa:</label>
+    <input type="text" id="cliente" name="company_name" placeholder="Nome da empresa">
+</div>
+<div>
+    <label for="nomeCliente">Nome do Cliente:</label>
+    <input type="text" id="nomeCliente" name="name" placeholder="Nome do cliente">
+</div>
+            <div>
+                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
+                <input type="text" id="pedidoCompra" placeholder="Número do pedido">
+            </div>
+            <div>
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" name="personal_phone" placeholder="(00) 00000-0000">
+            </div>
+            <div>
+                <label for="email">E-mail Comprador/Financeiro:</label>
+                <input type="email" id="email" name="email" placeholder="email@empresa.com">
+            </div>
+        </div>
+    </div>
+</div>
                 <!-- Itens do Pedido -->
                 <div class="section">
                     <h2 class="section-title">Itens do Pedido</h2>
                     <div class="items-section">
                         <table class="items-table" id="itemsTable">
-                            <thead>
-                                <tr>
-                                    <th>Qtd.</th>
-                                    <th>Produto</th>
-                                    <th>Medida</th>
-                                    <th>M</th>
-                                    <th>Papel</th>
-                                    <th>Cola</th>
-                                    <th>Impressão</th>
-                                    <th>R$ Unit.</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
+<thead>
+    <tr>
+        <th>Qtd.</th>
+        <th>Produto</th>
+        <th>Medida</th>
+        <th>Tipo de Papel</th> <!-- NOVO -->
+        <th>Tipo de Cola</th>  <!-- NOVO -->
+        <th>Impressão</th>
+        <th>M</th>
+        <th>R$ Unit.</th>
+        <th>Ações</th>
+    </tr>
+</thead>
+
                             <tbody id="itemsTableBody">
                                 <tr class="empty-state">
                                     <td colspan="9">
@@ -159,18 +166,18 @@
                         <p>Nenhum item adicionado</p>
                     </div>
                 </div>
-                <!-- Informações de Entrega e Pagamento -->
+                <!-- Informações de Entrega -->
                 <div class="section">
                     <h2 class="section-title">Informações de Entrega e Pagamento</h2>
                     <div class="form-group">
-                        <div class="form-row-2">
+                        <div class="form-row">
                             <div>
                                 <label for="dataEmissao">Data de Emissão:</label>
-                                <input type="text" id="dataEmissao" readonly style="background: #f8fafc;" required>
+                                <input type="text" id="dataEmissao" name="dataEmissao" readonly style="background: #f8fafc;">
                             </div>
                             <div>
                                 <label for="condicoesPagamento">Condições de Pagamento:</label>
-                                <input type="text" id="condicoesPagamento" placeholder="Ex: 28 dias" required>
+                                <input type="text" id="condicoesPagamento" placeholder="Ex: 28 dias">
                             </div>
                         </div>
                     </div>
@@ -197,410 +204,621 @@
         </div>
     </div>
 
-    <!-- Modal para Adicionar Item ao Pedido -->
-    <div id="itemModal" class="modal">
+<!-- Modal para Adicionar Item -->
+<div id="itemModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Adicionar Item ao Pedido</h3>
+            <button type="button" class="close-btn" onclick="closeItemModal()">&times;</button>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div>
+                    <label for="itemQtd">Quantidade:</label>
+                    <input type="number" id="itemQtd" min="1" placeholder="Ex: 30">
+                </div>
+                <div>
+                    <label for="itemUnidade">Unidade:</label>
+                    <select id="itemUnidade">
+                        <option value="rolos">Rolos</option>
+                        <option value="milheiro">Milheiro</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div>
+                    <label for="itemProduto">Produto:</label>
+                    <select name="produto" id="itemProduto">
+                        <option value="">Selecione o produto</option>
+                        <option value="Bob. PDV">Bobina PDV</option>
+                        <option value="Bob. REP">Bobina REP</option>
+                        <option value="Bob.Ticket de Est.">Bobina Ticket de Estacionamento</option>
+                        <option value="Etq de Balança">Etiqueta de Balança</option>
+                        <option value="Etq de Gondola">Etiqueta de Gondola</option>
+                        <option value="Etq Tag">Etiqueta tag</option>
+                        <option value="Etq Cartaz">Etiqueta cartaz</option>
+                        <option value="Etq Faixa">Etiqueta faixa</option>
+                        <option value="Etq Tag Textil">Etiqueta Tag Textil</option>
+                        <option value="Etq Marcação de preço">Etiqueta Marcação de Preço</option>
+                        <option value="Etq Indicativa">Etiqueta Indicativa</option>
+                        <option value="Ribbon Cera Padrão">Ribbon Cera Padrão</option>
+                        <option value="Ribbon Cera Top">Ribbon Cera Top</option>
+                        <option value="Ribbon Mista">Ribbon Mista</option>
+                        <option value="Ribbon resina">Ribbon Resina</option>
+                        <option value="Rótulos">Rótulos</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="itemMedidaAdesivo">Medida do Adesivo:</label>
+                    <input type="text" id="itemMedidaAdesivo" placeholder="Ex: 60x150">
+                </div>
+            </div>
+        </div>
+        <!-- Novos campos -->
+        <div class="form-group">
+            <div class="form-row">
+                <div>
+                    <label for="itemTipoPapel">Tipo de Papel:</label>
+                    <select id="itemTipoPapel">
+                        <option value="">Selecione o papel</option>
+                        <option value="Térmico Branco 44g">Térmico Branco 44g</option>
+                        <option value="Termoticket">Termoticket</option>
+                        <option value="Térmico Padrão">Térmico Padrão</option>
+                        <option value="Térmico top">Térmico top</option>
+                        <option value="Cartão">Cartão</option>
+                        <option value="Couchê Padrão">Couchê Padrão</option>
+                        <option value="Branco Fosco">Branco Fosco</option>
+                        <option value="Bopp Branco Fosco">Bopp Branco Fosco</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="itemTipoCola">Tipo de Cola:</label>
+                    <select id="itemTipoCola">
+                        <option value="N/A">N/A</option>
+                        <option value="Cola Acrílica">Cola Acrílica</option>
+                        <option value="Cola Borracha">Cola Borracha</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Continua normalmente com os outros campos -->
+        <div class="form-group">
+            <div class="form-row">
+                <div>
+                    <label for="itemImpressao">Impressão:</label>
+                    <select id="itemImpressao">
+                        <option value="Lisa">Lisa</option>
+                        <option value="Pers.">Personalizada</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="itemMetroRolo">Metro do Rolo:</label>
+                    <input type="text" id="itemMetroRolo" placeholder="Ex: 30 M">
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="itemDetalhesGroup" style="display: none;">
+            <label for="itemDetalhes">Detalhes:</label>
+            <input type="text" id="itemDetalhes" placeholder="Detalhes">
+        </div>
+        <div class="form-group">
+            <label for="itemValorUnitario">Valor Unitário do Rolo (R$):</label>
+            <input type="text" id="itemValorUnitario" placeholder="R$ 0,00" autocomplete="off">
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
+            <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal para Resumo de Item -->
+    <div id="itemSummaryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Adicionar Item ao Pedido</h3>
-                <button type="button" class="close-btn" onclick="closeItemModal()">&times;</button>
+                <h3>Resumo do Item</h3>
+                <button type="button" class="close-btn" onclick="closeItemSummaryModal()">&times;</button>
             </div>
-            <!-- Primeira linha -->
-            <div class="form-group">
-                <div class="form-row-2">
-                    <div>
-                        <label for="itemQtd">Quantidade:</label>
-                        <input type="number" id="itemQtd" min="1" placeholder="Ex: 30" required>
-                    </div>
-                    <div>
-                        <label for="itemUnidade">Unidade:</label>
-                        <select id="itemUnidade" required>
-                            <option value="">Selecione</option>
-                            <option value="rolos">Rolos</option>
-                            <option value="milheiro">Milheiro</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!-- Segunda linha -->
-            <div class="form-group">
-                <div class="form-row-2">
-                    <div>
-                        <label for="itemProduto">Produto:</label>
-                        <select id="itemProduto" required>
-                            <option value="">Selecione o produto</option>
-                            <option value="Bob. PDV">Bobina PDV</option>
-                            <option value="Bob. REP">Bobina REP</option>
-                            <option value="Bob.Ticket de Est.">Bobina Ticket de Estacionamento</option>
-                            <option value="Etq de Balança">Etiqueta de Balança</option>
-                            <option value="Etq de Gondola">Etiqueta de Gondola</option>
-                            <option value="Etq Tag">Etiqueta tag</option>
-                            <option value="Etq Cartaz">Etiqueta cartaz</option>
-                            <option value="Etq Faixa">Etiqueta faixa</option>
-                            <option value="Etq Tag Textil">Etiqueta Tag Textil</option>
-                            <option value="Etq Marcação de preço">Etiqueta Marcação de Preço</option>
-                            <option value="Etq Indicativa">Etiqueta Indicativa</option>
-                            <option value="Ribbon Cera Padrão">Ribbon Cera Padrão</option>
-                            <option value="Ribbon Cera Top">Ribbon Cera Top</option>
-                            <option value="Ribbon Mista">Ribbon Mista</option>
-                            <option value="Ribbon Resina">Ribbon Resina</option>
-                            <option value="Rótulos">Rótulos</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="itemMedidaAdesivo">Medida do Adesivo:</label>
-                        <input type="text" id="itemMedidaAdesivo" placeholder="Ex: 60x150" required>
-                    </div>
-                </div>
-            </div>
-            <!-- Terceira linha (Tipo de Papel e Tipo de Cola) -->
-            <div class="form-group">
-                <div class="form-row-2">
-                    <div>
-                        <label for="itemTipoPapel">Tipo de Papel:</label>
-                        <select id="itemTipoPapel">
-                            <option value="">Selecione o papel</option>
-                            <option value="Térmico Branco 44g">Térmico Branco 44g</option>
-                            <option value="Termoticket">Termoticket</option>
-                            <option value="Térmico Padrão">Térmico Padrão</option>
-                            <option value="Térmico top">Térmico top</option>
-                            <option value="Cartão">Cartão</option>
-                            <option value="Couchê Padrão">Couchê Padrão</option>
-                            <option value="Branco Fosco">Branco Fosco</option>
-                            <option value="Bopp Branco Fosco">Bopp Branco Fosco</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="itemTipoCola">Tipo de Cola:</label>
-                        <select id="itemTipoCola">
-                            <option value="N/A">N/A</option>
-                            <option value="Cola Acrílica">Cola Acrílica</option>
-                            <option value="Cola Borracha">Cola Borracha</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!-- Quarta linha -->
-            <div class="form-group">
-                <div class="form-row-2">
-                    <div>
-                        <label for="itemImpressao">Impressão:</label>
-                        <select id="itemImpressao" required>
-                            <option value="Lisa">Lisa</option>
-                            <option value="Pers.">Personalizada</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="itemMetroRolo">Metro do Rolo:</label>
-                        <input type="text" id="itemMetroRolo" placeholder="Ex: 30 M" required>
-                    </div>
-                </div>
-            </div>
-            <!-- Detalhes Personalização -->
-            <div class="form-group" id="itemDetalhesGroup" style="display:none;">
-                <label for="itemDetalhes">Detalhes:</label>
-                <input type="text" id="itemDetalhes" placeholder="Detalhes da personalização">
-            </div>
-            <!-- Valor Unitário -->
-            <div class="form-group">
-                <label for="itemValorUnitario">Valor Unitário do Rolo (R$):</label>
-                <input type="text" id="itemValorUnitario" placeholder="R$ 0,00" autocomplete="off" required>
-            </div>
+            <div id="itemSummaryContent"></div>
             <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
-                <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
+                <button type="button" class="btn btn-secondary" onclick="closeItemSummaryModal()">Fechar</button>
             </div>
         </div>
     </div>
 
-<!-- MODAL DE LOADING -->
-<div id="loadingModal" class="modal" style="align-items:center;justify-content:center;display:none;">
-    <div class="modal-content" style="text-align:center;">
-        <h3>Aguarde...</h3>
-        <p>Processando o pedido. Por favor, aguarde.</p>
-    </div>
-</div>
-
-<!-- MODAL DE SUCESSO -->
-<div id="successModal" class="modal" style="align-items:center;justify-content:center;display:none;">
-    <div class="modal-content" style="text-align:center;">
-        <h3>Pedido enviado com sucesso!</h3>
-        <p>Seu pedido foi registrado. Obrigado.</p>
-        <button class="btn" onclick="hideSuccess()">OK</button>
-    </div>
-</div>
-
-<script>
-let items = [];
-let editingIndex = -1;
-let cnpjEncontrado = false;
-
-// Mostrar/esconder campo Detalhes ao mudar Impressão
-document.getElementById('itemImpressao').addEventListener('change', function(){
-    const detalhesGroup = document.getElementById('itemDetalhesGroup');
-    if(this.value === "Pers.") {
-        detalhesGroup.style.display = "";
-    } else {
-        detalhesGroup.style.display = "none";
-        document.getElementById('itemDetalhes').value = "";
-    }
-});
-
-/** -------------- MODAL ITEM -------------- **/
-function openItemModal(index = null) {
-    document.getElementById('itemModal').style.display = 'block';
-    if (index !== null && items[index]) {
-        editingIndex = index;
-        const item = items[index];
-        document.getElementById('itemQtd').value = item.quantidade;
-        document.getElementById('itemUnidade').value = item.unidade;
-        document.getElementById('itemProduto').value = item.produto;
-        document.getElementById('itemMedidaAdesivo').value = item.medidaAdesivo;
-        document.getElementById('itemTipoPapel').value = item.tipoPapel || "";
-        document.getElementById('itemTipoCola').value = item.tipoCola || "N/A";
-        document.getElementById('itemImpressao').value = item.impressao;
-        document.getElementById('itemMetroRolo').value = item.metroRolo;
-        document.getElementById('itemValorUnitario').value = item.valorUnitario;
-        document.getElementById('itemDetalhes').value = item.detalhes || '';
-        // Forçar exibir campo Detalhes se for Personalizada
-        if(item.impressao === "Pers.") {
-            document.getElementById('itemDetalhesGroup').style.display = "";
-        } else {
-            document.getElementById('itemDetalhesGroup').style.display = "none";
-        }
-    } else {
-        editingIndex = -1;
-        document.getElementById('itemQtd').value = '';
-        document.getElementById('itemUnidade').value = '';
-        document.getElementById('itemProduto').value = '';
-        document.getElementById('itemMedidaAdesivo').value = '';
-        document.getElementById('itemTipoPapel').value = '';
-        document.getElementById('itemTipoCola').value = 'N/A';
-        document.getElementById('itemImpressao').value = 'Lisa';
-        document.getElementById('itemMetroRolo').value = '';
-        document.getElementById('itemValorUnitario').value = '';
-        document.getElementById('itemDetalhes').value = '';
-        document.getElementById('itemDetalhesGroup').style.display = "none";
-    }
-}
-function closeItemModal() {
-    document.getElementById('itemModal').style.display = 'none';
-}
-
-function addItem() {
-    const item = {
-        quantidade: Number(document.getElementById('itemQtd').value) || 0,
-        unidade: document.getElementById('itemUnidade').value,
-        produto: document.getElementById('itemProduto').value,
-        medidaAdesivo: document.getElementById('itemMedidaAdesivo').value,
-        tipoPapel: document.getElementById('itemTipoPapel').value,
-        tipoCola: document.getElementById('itemTipoCola').value,
-        impressao: document.getElementById('itemImpressao').value,
-        metroRolo: document.getElementById('itemMetroRolo').value,
-        valorUnitario: parseFloat(
-            document.getElementById('itemValorUnitario').value
-                .replace('R$', '').replace('.', '').replace(',', '.').trim()
-        ) || 0,
-        detalhes: document.getElementById('itemDetalhes').value || ''
-    };
-    if (!item.quantidade || !item.unidade || !item.produto || !item.medidaAdesivo || !item.impressao || !item.metroRolo) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
-    }
-    if (item.impressao === "Pers." && !item.detalhes.trim()) {
-        alert('Preencha o campo Detalhes.');
-        return;
-    }
-    if (editingIndex > -1) {
-        items[editingIndex] = item;
-    } else {
-        items.push(item);
-    }
-    closeItemModal();
-    updateItemsTable();
-}
-function removeItem(index) {
-    if (confirm('Deseja remover este item?')) {
-        items.splice(index, 1);
-        updateItemsTable();
-    }
-}
-function editItem(index) {
-    openItemModal(index);
-}
-function updateItemsTable() {
-    const tableBody = document.getElementById('itemsTableBody');
-    tableBody.innerHTML = '';
-    if (items.length === 0) {
-        tableBody.innerHTML = `
-            <tr class="empty-state">
-                <td colspan="9">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
-                    <p>Nenhum item adicionado</p>
-                    <small>Clique em "Adicionar Item" para começar</small>
-                </td>
-            </tr>
-        `;
-    } else {
-        items.forEach((item, index) => {
-            const row = tableBody.insertRow();
-            row.innerHTML = `
-                <td>${item.quantidade} ${item.unidade}</td>
-                <td>${item.produto}</td>
-                <td>${item.medidaAdesivo}</td>
-                <td>${item.metroRolo}</td>
-                <td>${item.tipoPapel || ""}</td>
-                <td>${item.tipoCola || ""}</td>
-                <td>${item.impressao}${item.detalhes ? `<br><span style="font-size:11px;color:#888;">${item.detalhes}</span>` : ''}</td>
-                <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
-                <td>
-                    <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
-                    <button type="button" class="edit-item" onclick="editItem(${index})" style="margin-left:5px;">&#9998;</button>
-                </td>
-            `;
-        });
-    }
-    updateTotal();
-}
-
-function updateTotal() {
-    const summaryElement = document.getElementById('orderSummary');
-    if (items.length === 0) {
-        summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
-        return;
-    }
-    let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
-    let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
-    items.forEach(item => {
-        if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
-            const p = item.produto.toLowerCase();
-            if (p.includes('bob.')) cxBobinas += item.quantidade;
-            else if (p.includes('etq')) cxEtiquetas += item.quantidade;
-            else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
-            else if (p.includes('ribbon')) cxRibbons += item.quantidade;
-        }
-    });
-    summaryHTML += `
-        <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
-            <strong style="font-size:18px;">Qtd total:</strong><br>
-            <span style="font-size:16px;">
-                Qtd de Bobinas: ${cxBobinas} |
-                Qtd de Etiquetas: ${cxEtiquetas} |
-                Qtd de Rótulos: ${cxRotulos} |
-                Qtd de Ribbons: ${cxRibbons}
-            </span>
+    <!-- Modal de carregamento -->
+    <div id="loadingModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);z-index:9999;align-items:center;justify-content:center;">
+        <div style="background:#fff;padding:32px 28px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.13);text-align:center;max-width:340px;width:94vw;">
+            <div style="margin-bottom:16px;">
+                <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="35" stroke="#003366" stroke-width="9" stroke-linecap="round" stroke-dasharray="110 45">
+                        <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" from="0 50 50" to="360 50 50"/>
+                    </circle>
+                </svg>
+            </div>
+            <h3 style="color:#003366;font-size:1.16rem;margin-bottom:10px;">Seu pedido está sendo processado</h3>
+            <p style="color:#444;font-size:1rem;">
+                Por favor, aguarde enquanto confirmamos todas as informações.<br>
+                Não feche ou atualize esta página.
+            </p>
         </div>
-    `;
-    summaryHTML += '</div>';
-    summaryElement.innerHTML = summaryHTML;
-}
+    </div>
 
-function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
-function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
-function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
-function hideSuccess() {
-    document.getElementById('successModal').style.display = 'none';
-    document.getElementById('pedidoForm').reset();
-    items = [];
-    updateItemsTable();
-    document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
+    <!-- Modal de sucesso -->
+    <div id="successModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;align-items:center;justify-content:center;">
+        <div style="background:#fff;padding:30px 28px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.13);text-align:center;max-width:340px;width:94vw;">
+            <div style="margin-bottom:16px;">
+                <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="22" stroke="#19b552" stroke-width="4" fill="#f4fff6"/>
+                    <path d="M14 25l7 7 13-13" stroke="#19b552" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3 style="color:#19b552;font-size:1.16rem;margin-bottom:10px;">Pedido registrado com sucesso!</h3>
+            <p style="color:#444;font-size:1rem;">Seu pedido foi recebido e processado.<br>Você receberá uma confirmação em breve.</p>
+            <button onclick="hideSuccess()" style="margin-top:18px;background:#003366;color:#fff;font-size:1rem;padding:9px 32px;border-radius:8px;border:none;cursor:pointer;">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let items = [];
+
+        // Máscara telefone fixo/celular
+        function maskPhone(v) {
+            v = v.replace(/\D/g,"").slice(0,11);
+            if (v.length > 10) {
+                v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else if (v.length > 6) {
+                v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{0,5}).*/, "($1) $2");
+            } else {
+                v = v.replace(/^(\d{0,2}).*/, "($1");
+            }
+            return v;
+        }
+        document.getElementById("telefone").addEventListener("input", function(e) {
+            this.value = maskPhone(this.value);
+        });
+function maskCNPJ(v) {
+    v = v.replace(/\D/g, "").slice(0,14);
+    if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/, "$1.$2.$3/$4-$5");
+    else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/, "$1.$2.$3/$4");
+    else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
+    else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3}).*/, "$1.$2");
+    else v = v.replace(/^(\d{0,2}).*/, "$1");
+    return v;
 }
-function formatDateTimeBR(dt) {
-    const pad = n => n.toString().padStart(2, '0');
-    return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
-        + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
-}
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
-    updateItemsTable();
+document.getElementById("cnpj").addEventListener("input", function(e) {
+    this.value = maskCNPJ(this.value);
 });
-document.getElementById("itemValorUnitario").addEventListener("input", function() {
-    let v = this.value.replace(/\D/g, "");
-    if (!v) v = "0";
+
+        // Função para buscar CNPJ e controlar campo Cliente (com correção para não apagar o valor digitado)
+document.getElementById("cnpj").addEventListener("blur", function() {
+    const cnpjInput = this.value.replace(/\D/g, "");
+    const clienteInput = document.getElementById("cliente");
+    const cnpjField = document.getElementById("cnpj");
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec";
+
+    if (cnpjInput.length === 14) {
+        fetch(`${scriptUrl}?cnpj=${cnpjInput}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.companyName) {
+                    clienteInput.value = data.companyName;
+                    clienteInput.readOnly = true;
+                    cnpjField.removeAttribute('name');
+                } else {
+                    clienteInput.readOnly = false;
+                    clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                    cnpjField.setAttribute('name', 'cf_cnpj');
+                }
+            })
+            .catch(() => {
+                clienteInput.readOnly = false;
+                cnpjField.setAttribute('name', 'cf_cnpj');
+            });
+    } else {
+        clienteInput.readOnly = false;
+        cnpjField.setAttribute('name', 'cf_cnpj');
+    }
+});
+
+const cnpjInput = document.getElementById("cnpj");
+const clienteInput = document.getElementById("cliente");
+const cnpjStatus = document.getElementById("cnpj-status");
+const scriptUrl = "https://script.google.com/macros/s/AKfycbw2JE83kbW5tvqoETf8YoQT3xfqN1hFzpx27RL52jVFbdWyGJbRqKRKTB43NN6oCKnuyA/exec";
+
+let lastCnpjBuscado = "";
+
+cnpjInput.addEventListener("blur", function () {
+    const cnpjValue = this.value.replace(/\D/g, "");
+    if (cnpjValue.length !== 14) {
+        cnpjStatus.textContent = "";
+        clienteInput.readOnly = false;
+        cnpjInput.setAttribute('name', 'cf_cnpj');
+        return;
+    }
+
+    // Atualiza o status
+    cnpjStatus.textContent = "Procurando CNPJ existente...";
+    clienteInput.readOnly = true;
+    lastCnpjBuscado = cnpjValue;
+
+    fetch(`${scriptUrl}?cnpj=${cnpjValue}`)
+        .then(response => response.json())
+        .then(data => {
+            if (lastCnpjBuscado !== cnpjValue) {
+                // Ignora resultados antigos (se o usuário digitou rápido)
+                return;
+            }
+            cnpjStatus.textContent = "";
+            if (data.companyName) {
+                // CNPJ encontrado: preenche cliente, bloqueia edição, remove name do CNPJ
+                clienteInput.value = data.companyName;
+                clienteInput.readOnly = true;
+                cnpjInput.removeAttribute('name');
+            } else {
+                // CNPJ não encontrado: libera edição cliente, coloca placeholder, mantém name do CNPJ
+                clienteInput.value = "";
+                clienteInput.readOnly = false;
+                clienteInput.placeholder = "Digite o nome da empresa/cliente";
+                cnpjInput.setAttribute('name', 'cf_cnpj');
+            }
+        })
+        .catch(() => {
+            if (lastCnpjBuscado !== cnpjValue) return;
+            cnpjStatus.textContent = "";
+            clienteInput.readOnly = false;
+            cnpjInput.setAttribute('name', 'cf_cnpj');
+        });
+});
+
+// Opcional: ao começar a digitar um novo CNPJ limpa o status e libera o campo cliente
+cnpjInput.addEventListener("input", function () {
+    cnpjStatus.textContent = "";
+    clienteInput.readOnly = false;
+    cnpjInput.setAttribute('name', 'cf_cnpj');
+});
+
+
+function maskMoneyBR(v) {
+    v = v.replace(/\D/g, "");
     v = (parseInt(v, 10) || 0).toString();
+    if (v.length === 0) return "R$ 0,00";
     while (v.length < 3) v = "0" + v;
     let intPart = v.slice(0, v.length - 2);
     let decPart = v.slice(v.length - 2);
     intPart = intPart.replace(/^0+/, '') || '0';
     intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    this.value = `R$ ${intPart},${decPart}`;
-});
-function confirmClearForm() {
-    if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
-        document.getElementById('pedidoForm').reset();
-        items = [];
-        updateItemsTable();
-        document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
-    }
+    return `R$ ${intPart},${decPart}`;
 }
+const valorUnitarioInput = document.getElementById("itemValorUnitario");
+valorUnitarioInput.addEventListener("input", function() {
+    let cursor = this.selectionStart;
+    let oldLength = this.value.length;
+    this.value = maskMoneyBR(this.value);
+    // Ajusta cursor para evitar "pular"
+    let newLength = this.value.length;
+    this.setSelectionRange(cursor + (newLength - oldLength), cursor + (newLength - oldLength));
+});
 
-// CONSULTA REAL AO GOOGLE SHEETS (com mensagem enquanto busca)
-document.getElementById('cnpj').addEventListener('blur', function () {
-    const cnpjValue = this.value.replace(/\D/g, "");
-    let status = document.getElementById('cnpj-status');
-    const clienteInput = document.getElementById('cliente');
-    if (cnpjValue.length !== 14) {
-        status.textContent = '';
-        cnpjEncontrado = false;
-        clienteInput.value = '';
-        clienteInput.readOnly = false;
+        // Exibe/Oculta 'Detalhes' conforme Impressão
+        document.getElementById('itemImpressao').addEventListener('change', function() {
+            const detalhesGroup = document.getElementById('itemDetalhesGroup');
+            detalhesGroup.style.display = (this.value === 'Pers.') ? 'block' : 'none';
+        });
+
+        function openItemModal() {
+            document.getElementById('itemModal').style.display = 'block';
+        }
+        function closeItemModal() {
+            document.getElementById('itemModal').style.display = 'none';
+            document.getElementById('itemQtd').value = '';
+            document.getElementById('itemUnidade').value = 'rolos';
+            document.getElementById('itemProduto').value = '';
+            document.getElementById('itemMedidaAdesivo').value = '';
+            document.getElementById('itemImpressao').value = 'Lisa';
+            document.getElementById('itemMetroRolo').value = '';
+            document.getElementById('itemDetalhes').value = '';
+            document.getElementById('itemDetalhesGroup').style.display = 'none';
+            document.getElementById('itemValorUnitario').value = '';
+            // Restaura o botão do modal para Adicionar Item
+            let actions = document.querySelector('#itemModal .modal-actions');
+            actions.innerHTML = `
+                <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
+                <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
+            `;
+        }
+
+function addItem() {
+    const quantidade = parseFloat(document.getElementById('itemQtd').value);
+    const unidade = document.getElementById('itemUnidade').value;
+    const produto = document.getElementById('itemProduto').value;
+    const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+    const tipoPapel = document.getElementById('itemTipoPapel').value; // NOVO
+    const tipoCola = document.getElementById('itemTipoCola').value;   // NOVO
+    const impressao = document.getElementById('itemImpressao').value;
+    const detalhes = document.getElementById('itemDetalhes').value;
+    const metroRolo = document.getElementById('itemMetroRolo').value;
+    const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
+    const valorUnitario = parseFloat(valorUnitarioStr) || 0;
+
+    if (!quantidade || !produto || !valorUnitario) {
+        alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
         return;
     }
-    status.textContent = "Procurando CNPJ existente.";
-    clienteInput.value = '';
-    clienteInput.readOnly = false;
-    fetch('https://script.google.com/macros/s/AKfycbwOrDOHxDa1h93hrA1WrF69tHSIUWmeBN8YbwbphUdB8nb1YysWbs41tWQDwl3sy5JHug/exec?consultaCNPJ=' + cnpjValue)
-        .then(response => response.json())
-        .then(data => {
-            cnpjEncontrado = !!data.encontrado;
-            if (data.encontrado && data.cliente) {
-                clienteInput.value = data.cliente;
-                clienteInput.readOnly = true;
-            } else {
-                clienteInput.value = '';
-                clienteInput.readOnly = false;
-            }
-            status.textContent = '';
-        })
-        .catch(() => {
-            cnpjEncontrado = false;
-            clienteInput.value = '';
-            clienteInput.readOnly = false;
-            status.textContent = '';
-        });
-});
+    items.push({ quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario });
+    updateItemsTable();
+    closeItemModal();
+}
 
-document.getElementById('pedidoForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    showLoading();
 
-    setTimeout(() => {
-        let cnpj = document.getElementById('cnpj').value.trim();
-        let cliente = document.getElementById('cliente').value.trim();
-        let email = document.getElementById('email').value.trim();
-        let telefone = document.getElementById('telefone').value.trim();
-        let nome = document.getElementById('nomeContato').value.trim();
-
-        let dados = {
-            cliente: cliente,
-            email: email,
-            telefone: telefone,
-            nome: nome
-        };
-        if (!cnpjEncontrado) {
-            dados.cnpj = cnpj;
+        // Função de editar item
+        function editItem(index) {
+            const item = items[index];
+            // Abre o modal e preenche os campos com os valores do item selecionado
+            document.getElementById('itemQtd').value = item.quantidade;
+            document.getElementById('itemUnidade').value = item.unidade;
+            document.getElementById('itemProduto').value = item.produto;
+            document.getElementById('itemMedidaAdesivo').value = item.medidaAdesivo;
+            document.getElementById('itemImpressao').value = item.impressao;
+            document.getElementById('itemMetroRolo').value = item.metroRolo;
+            document.getElementById('itemValorUnitario').value = item.valorUnitario;
+            document.getElementById('itemDetalhes').value = item.detalhes || "";
+const tipoPapel = document.getElementById('itemTipoPapel').value;
+const tipoCola = document.getElementById('itemTipoCola').value;
+            document.getElementById('itemDetalhesGroup').style.display = (item.impressao === 'Pers.') ? 'block' : 'none';
+            // Altera o botão do modal para "Salvar"
+            let actions = document.querySelector('#itemModal .modal-actions');
+            actions.innerHTML = `
+                <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
+                <button type="button" class="btn" onclick="saveItem(${index})">Salvar</button>
+            `;
+            openItemModal();
         }
-        setTimeout(() => {
+        function saveItem(index) {
+            // Atualiza o item editado
+            const quantidade = parseFloat(document.getElementById('itemQtd').value);
+            const unidade = document.getElementById('itemUnidade').value;
+            const produto = document.getElementById('itemProduto').value;
+            const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+            const impressao = document.getElementById('itemImpressao').value;
+            const detalhes = document.getElementById('itemDetalhes').value;
+            const metroRolo = document.getElementById('itemMetroRolo').value;
+            const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
+const valorUnitario = parseFloat(valorUnitarioStr) || 0;
+
+
+            if (!quantidade || !produto || !valorUnitario) {
+                alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
+                return;
+            }
+            items[index] = { quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario };
+            updateItemsTable();
+            closeItemModal();
+            // Restaura o botão do modal para Adicionar Item
+            let actions = document.querySelector('#itemModal .modal-actions');
+            actions.innerHTML = `
+                <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
+                <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
+            `;
+        }
+
+        function removeItem(index) {
+            if (confirm('Tem certeza que deseja remover este item?')) {
+                items.splice(index, 1);
+                updateItemsTable();
+            }
+        }
+
+        function openItemSummaryModal(item) {
+            const modal = document.getElementById('itemSummaryModal');
+            const content = document.getElementById('itemSummaryContent');
+content.innerHTML = `
+    <div style="background: #f8fafc; padding: 20px; border-radius: 8px;">
+        <p><strong>Quantidade:</strong> ${item.quantidade} ${item.unidade}</p>
+        <p><strong>Produto:</strong> ${item.produto}</p>
+        <p><strong>Medida do Adesivo:</strong> ${item.medidaAdesivo}</p>
+        <p><strong>Tipo de Papel:</strong> ${item.tipoPapel}</p>
+        <p><strong>Tipo de Cola:</strong> ${item.tipoCola}</p>
+        <p><strong>Impressão:</strong> ${item.impressao}</p>
+        ${item.detalhes ? `<p><strong>Detalhes:</strong> ${item.detalhes}</p>` : ''}
+        <p><strong>Metro do Rolo:</strong> ${item.metroRolo}</p>
+        <p style="font-weight:bold; color:#003366;"><strong>Valor Unitário:</strong> R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</p>
+    </div>
+`;
+            modal.style.display = 'block';
+        }
+        function closeItemSummaryModal() {
+            document.getElementById('itemSummaryModal').style.display = 'none';
+        }
+
+        function updateItemsTable() {
+            const tableBody = document.getElementById('itemsTableBody');
+            tableBody.innerHTML = '';
+            if (items.length === 0) {
+                tableBody.innerHTML = `
+                    <tr class="empty-state">
+                        <td colspan="9">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/></svg>
+                            <p>Nenhum item adicionado</p>
+                            <small>Clique em "Adicionar Item" para começar</small>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                items.forEach((item, index) => {
+                    const row = tableBody.insertRow();
+row.innerHTML = `
+    <td>${item.quantidade} ${item.unidade}</td>
+    <td>${item.produto}</td>
+    <td>${item.medidaAdesivo}</td>
+    <td>${item.tipoPapel}</td>
+    <td>${item.tipoCola}</td>
+    <td>${item.impressao}</td>
+    <td>${item.metroRolo}</td>
+    <td>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</td>
+    <td>
+        <button type="button" class="remove-item" onclick="removeItem(${index})">&times;</button>
+        <button type="button" class="edit-item" onclick="editItem(${index})" style="margin-left:5px;">&#9998;</button>
+    </td>
+`;
+                    row.addEventListener('click', e => {
+                        if (
+                            !e.target.classList.contains('remove-item') &&
+                            !e.target.classList.contains('edit-item')
+                        ) openItemSummaryModal(item);
+                    });
+                });
+            }
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const summaryElement = document.getElementById('orderSummary');
+            if (items.length === 0) {
+                summaryElement.innerHTML = '<p>Nenhum item adicionado</p>';
+                return;
+            }
+            let cxBobinas = 0, cxEtiquetas = 0, cxRotulos = 0, cxRibbons = 0;
+            let summaryHTML = '<div style="font-size:14px; line-height:1.6;">';
+
+            items.forEach(item => {
+                if (item.unidade === 'rolos' || item.unidade === 'milheiro') {
+                    const p = item.produto.toLowerCase();
+                    if (p.includes('bob.')) cxBobinas += item.quantidade;
+                    else if (p.includes('etq')) cxEtiquetas += item.quantidade;
+                    else if (p.includes('rótulo') || p.includes('rotulo')) cxRotulos += item.quantidade;
+                    else if (p.includes('ribbon')) cxRibbons += item.quantidade;
+                }
+            });
+
+            summaryHTML += `
+                <div style="margin-top:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:4px; border:1px solid rgba(255,255,255,0.3);">
+                    <strong style="font-size:18px;">Qtd total:</strong><br>
+                    <span style="font-size:16px;">
+                        Qtd de Bobinas: ${cxBobinas} |
+                        Qtd de Etiquetas: ${cxEtiquetas} |
+                        Qtd de Rótulos: ${cxRotulos} |
+                        Qtd de Ribbons: ${cxRibbons}
+                    </span>
+                </div>
+            `;
+            summaryHTML += '</div>';
+            summaryElement.innerHTML = summaryHTML;
+        }
+
+        function confirmClearForm() {
+            if (confirm('Tem certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
+                document.getElementById('pedidoForm').reset();
+                items = [];
+                updateItemsTable();
+                document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('itemModal')) closeItemModal();
+            if (event.target === document.getElementById('itemSummaryModal')) closeItemSummaryModal();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateItemsTable();
+            document.getElementById('dataEmissao').value = formatDateTimeBR(new Date());
+        });
+
+        // Data de emissão com horário
+        function formatDateTimeBR(dt) {
+            const pad = n => n.toString().padStart(2, '0');
+            return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate())
+                + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':' + pad(dt.getSeconds());
+        }
+
+        // Modal de loading e sucesso
+        function showLoading() { document.getElementById('loadingModal').style.display = 'flex'; }
+        function hideLoading() { document.getElementById('loadingModal').style.display = 'none'; }
+        function showSuccess() { document.getElementById('successModal').style.display = 'flex'; }
+        function hideSuccess() {
+            document.getElementById('successModal').style.display = 'none';
+            document.getElementById('pedidoForm').submit(); // Envia o RD Station só depois do OK!
+        }
+
+        // Delay entre requisições para Make
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+        document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+            var btn = this.querySelector('[type="submit"]');
+            if (btn) btn.disabled = true;
+            e.preventDefault();
+
+            showLoading();
+
+            // Validação telefone
+            const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
+            if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
+                hideLoading();
+                alert('Digite um telefone válido (com DDD).');
+                if (btn) btn.disabled = false;
+                return;
+            }
+
+            // Dados do formulário
+            const representante = document.getElementById('representante').value;
+            const cliente = document.getElementById('cliente').value;
+            const pedidoCompra = document.getElementById('pedidoCompra').value;
+            const telefone = document.getElementById('telefone').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const email = document.getElementById('email').value;
+            const dataEmissao = document.getElementById('dataEmissao').value;
+            const condicoesPagamento = document.getElementById('condicoesPagamento').value;
+            const observacoes = document.getElementById('observacoes').value;
+
+            // Envia cada item para o webhook Make com delay de 1 segundo
+            try {
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    const payload = {
+                        representante,
+                        cliente,
+                        pedidoCompra,
+                        telefone,
+                        cnpj,
+                        email,
+                        dataEmissao,
+                        condicoesPagamento,
+                        observacoes,
+                        qtd: item.quantidade,
+                        unidade: item.unidade,
+                        produto: item.produto,
+                        medida: item.medidaAdesivo,
+                        impressao: item.impressao,
+                        detalhes: item.detalhes,
+                        metroRolo: item.metroRolo,
+                        valorUnitario: item.valorUnitario
+                    };
+                    await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (i < items.length - 1) await sleep(1000); // Delay de 1s, exceto após o último
+                }
+            } catch (err) {
+                hideLoading();
+                alert('Ocorreu um erro ao enviar para o Make. Por favor, tente novamente.');
+                if (btn) btn.disabled = false;
+                return;
+            }
+
             hideLoading();
             showSuccess();
-        }, 1000);
-    }, 800);
-});
-window.onclick = function(event) {
-    if (event.target === document.getElementById('itemModal')) closeItemModal();
-    if (event.target === document.getElementById('loadingModal')) hideLoading();
-    if (event.target === document.getElementById('successModal')) hideSuccess();
-};
-</script>
 
+            if (btn) btn.disabled = false;
+            // O submit do RD Station só é disparado ao clicar em OK na tela de sucesso!
+        });
+    </script>
+    <script async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/552fc004-6b96-4465-944a-c4f5c4132f83-loader.js"></script>
 </body>
 </html>
