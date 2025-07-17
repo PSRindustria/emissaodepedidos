@@ -6,12 +6,7 @@
     <title>Formulário de Pedido - PSR Etiquetas</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; min-height: 100vh; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: #003366; padding: 30px 30px 15px 30px; color: white; text-align: center; }
         .header-logo { width: 200px; height: 70px; background: #f0f0f0; border: 2px dashed #ccc; border-radius: 8px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
@@ -87,7 +82,7 @@
                 <div class="section">
                     <div class="form-group">
                         <label for="representante">Representante Comercial:</label>
-                        <input type="text" id="representante" placeholder="Nome do representante">
+                        <input type="text" id="representante" placeholder="Nome do representante" required>
                     </div>
                 </div>
                 <!-- Informações do Cliente -->
@@ -97,24 +92,24 @@
                         <div class="form-row-3 form-row-5-custom">
                             <div>
                                 <label for="cnpj">CNPJ:</label>
-                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
                                 <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
                             </div>
                             <div>
                                 <label for="cliente">Cliente:</label>
-                                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa">
+                                <input type="text" id="cliente" name="company_name" placeholder="Nome do cliente/empresa" required>
                             </div>
                             <div>
                                 <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
-                                <input type="text" id="pedidoCompra" placeholder="Número do pedido">
+                                <input type="text" id="pedidoCompra" placeholder="Número do pedido" required>
                             </div>
                             <div>
                                 <label for="telefone">Telefone:</label>
-                                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000">
+                                <input type="tel" id="telefone" name="cf_contato" placeholder="(00) 00000-0000" required>
                             </div>
                             <div>
                                 <label for="email">E-mail Comprador/Financeiro:</label>
-                                <input type="email" id="email" name="email" placeholder="email@empresa.com">
+                                <input type="email" id="email" name="email" placeholder="email@empresa.com" required>
                             </div>
                         </div>
                     </div>
@@ -167,11 +162,11 @@
                         <div class="form-row">
                             <div>
                                 <label for="dataEmissao">Data de Emissão:</label>
-                                <input type="text" id="dataEmissao" readonly style="background: #f8fafc;">
+                                <input type="text" id="dataEmissao" readonly style="background: #f8fafc;" required>
                             </div>
                             <div>
                                 <label for="condicoesPagamento">Condições de Pagamento:</label>
-                                <input type="text" id="condicoesPagamento" placeholder="Ex: 28 dias">
+                                <input type="text" id="condicoesPagamento" placeholder="Ex: 28 dias" required>
                             </div>
                         </div>
                     </div>
@@ -209,11 +204,12 @@
                 <div class="form-row">
                     <div>
                         <label for="itemQtd">Quantidade:</label>
-                        <input type="number" id="itemQtd" min="1" placeholder="Ex: 30">
+                        <input type="number" id="itemQtd" min="1" placeholder="Ex: 30" required>
                     </div>
                     <div>
                         <label for="itemUnidade">Unidade:</label>
-                        <select id="itemUnidade">
+                        <select id="itemUnidade" required>
+                            <option value="">Selecione</option>
                             <option value="rolos">Rolos</option>
                             <option value="milheiro">Milheiro</option>
                         </select>
@@ -224,7 +220,7 @@
                 <div class="form-row">
                     <div>
                         <label for="itemProduto">Produto:</label>
-                        <select id="itemProduto">
+                        <select id="itemProduto" required>
                             <option value="">Selecione o produto</option>
                             <option value="Bob. PDV">Bobina PDV</option>
                             <option value="Bob. REP">Bobina REP</option>
@@ -246,20 +242,35 @@
                     </div>
                     <div>
                         <label for="itemMedidaAdesivo">Medida do Adesivo:</label>
-                        <input type="text" id="itemMedidaAdesivo" placeholder="Ex: 60x150">
+                        <input type="text" id="itemMedidaAdesivo" placeholder="Ex: 60x150" required>
                     </div>
                 </div>
             </div>
-            <!-- Novos campos: Tipo de Papel e Tipo de Cola -->
+            <!-- Tipo de Papel e Tipo de Cola: NÃO obrigatórios -->
             <div class="form-group">
                 <div class="form-row">
                     <div>
                         <label for="itemTipoPapel">Tipo de Papel:</label>
-                        <input type="text" id="itemTipoPapel" placeholder="Ex: Couchê, BOPP, Térmico">
+                        <select id="itemTipoPapel">
+                            <option value="">Selecione</option>
+                            <option value="Térmico Branco 44g">Térmico Branco 44g</option>
+                            <option value="Termoticket">Termoticket</option>
+                            <option value="Térmico Padrão">Térmico Padrão</option>
+                            <option value="Térmico top">Térmico top</option>
+                            <option value="Cartão">Cartão</option>
+                            <option value="Couchê Padrão">Couchê Padrão</option>
+                            <option value="Branco Fosco">Branco Fosco</option>
+                            <option value="Bopp Branco Fosco">Bopp Branco Fosco</option>
+                        </select>
                     </div>
                     <div>
                         <label for="itemTipoCola">Tipo de Cola:</label>
-                        <input type="text" id="itemTipoCola" placeholder="Ex: Permanente, Removível, Acrílica">
+                        <select id="itemTipoCola">
+                            <option value="">Selecione</option>
+                            <option value="N/A">N/A</option>
+                            <option value="Cola Acrílica">Cola Acrílica</option>
+                            <option value="Cola Borracha">Cola Borracha</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -267,14 +278,14 @@
                 <div class="form-row">
                     <div>
                         <label for="itemImpressao">Impressão:</label>
-                        <select id="itemImpressao">
+                        <select id="itemImpressao" required>
                             <option value="Lisa">Lisa</option>
                             <option value="Pers.">Personalizada</option>
                         </select>
                     </div>
                     <div>
                         <label for="itemMetroRolo">Metro do Rolo:</label>
-                        <input type="text" id="itemMetroRolo" placeholder="Ex: 30 M">
+                        <input type="text" id="itemMetroRolo" placeholder="Ex: 30 M" required>
                     </div>
                 </div>
             </div>
@@ -284,7 +295,7 @@
             </div>
             <div class="form-group">
                 <label for="itemValorUnitario">Valor Unitário do Rolo (R$):</label>
-                <input type="text" id="itemValorUnitario" placeholder="R$ 0,00" autocomplete="off">
+                <input type="text" id="itemValorUnitario" placeholder="R$ 0,00" autocomplete="off" required>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
