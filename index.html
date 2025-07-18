@@ -781,28 +781,28 @@ row.innerHTML = `
             try {
                 for (let i = 0; i < items.length; i++) {
                     const item = items[i];
-                    const payload = {
-                        representante,
-                        cliente,
-                        nomeCliente,    // campo novo adicionado
-                        pedidoCompra,
-                        telefone,
-                        cnpj,
-                        email,
-                        dataEmissao,
-                        condicoesPagamento,
-                        observacoes,
-                        qtd: item.quantidade,
-                        unidade: item.unidade,
-                        produto: item.produto,
-                        medida: item.medidaAdesivo,
-                        tipoPapel: item.tipoPapel,  // campo novo adicionado
-                        tipoCola: item.tipoCola,    // campo novo adicionado
-                        impressao: item.impressao,
-                        detalhes: item.detalhes,
-                        metroRolo: item.metroRolo,
-                        valorUnitario: item.valorUnitario
-                    };
+                        const payload = {
+                        representante: representante || "",
+                        cliente: cliente || "",
+                        nomeCliente: nomeCliente || "",
+                        pedidoCompra: pedidoCompra || "",
+                        telefone: telefone || "",
+                        cnpj: cnpj || "",
+                        email: email || "",
+                        dataEmissao: dataEmissao || "",
+                        condicoesPagamento: condicoesPagamento || "",
+                        observacoes: observacoes || "",
+                        qtd: item.quantidade != null ? item.quantidade : 0,
+                        unidade: item.unidade || "",
+                        produto: item.produto || "",
+                        medida: item.medidaAdesivo || "",
+                        tipoPapel: item.tipoPapel || "",
+                        tipoCola: item.tipoCola || "",
+                        impressao: item.impressao || "",
+                        detalhes: item.detalhes || "",
+                        metroRolo: item.metroRolo || "",
+                        valorUnitario: item.valorUnitario != null ? item.valorUnitario : 0
+                        };
             await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
