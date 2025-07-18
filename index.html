@@ -749,66 +749,98 @@ row.innerHTML = `
         // Delay entre requisições para Make
         function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-        document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
-            var btn = this.querySelector('[type="submit"]');
-            if (btn) btn.disabled = true;
-            e.preventDefault();
+document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+    var btn = this.querySelector('[type="submit"]');
+    if (btn) btn.disabled = true;
+    e.preventDefault();
 
-            showLoading();
+    showLoading();
 
             // Validação telefone
-            const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
-            if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
-                hideLoading();
-                alert('Digite um telefone válido (com DDD).');
-                if (btn) btn.disabled = false;
-                return;
-            }
+    const telefoneValido = document.getElementById('telefone').value.replace(/\D/g,'');
+    if (!(telefoneValido.length === 10 || telefoneValido.length === 11)) {
+        hideLoading();
+        alert('Digite um telefone válido (com DDD).');
+        if (btn) btn.disabled = false;
+        return;
+    }
 
             // Dados do formulário
-    const representante = document.getElementById('representante').value;
-    const cliente = document.getElementById('cliente').value;
-    const nomeCliente = document.getElementById('nomeCliente').value;  // Novo
-    const pedidoCompra = document.getElementById('pedidoCompra').value;
-    const telefone = document.getElementById('telefone').value;
-    const cnpj = document.getElementById('cnpj').value;
-    const email = document.getElementById('email').value;
-    const dataEmissao = document.getElementById('dataEmissao').value;
-    const condicoesPagamento = document.getElementById('condicoesPagamento').value;
-    const observacoes = document.getElementById('observacoes').value;
+    const representante = document.getElementById('representante').value || "";
+    const cliente = document.getElementById('cliente').value || "";
+    const nomeCliente = document.getElementById('nomeCliente').value || "";
+    const pedidoCompra = document.getElementById('pedidoCompra').value || "";
+    const telefone = document.getElementById('telefone').value || "";
+    const cnpj = document.getElementById('cnpj').value || "";
+    const email = document.getElementById('email').value || "";
+    const dataEmissao = document.getElementById('dataEmissao').value || "";
+    const condicoesPagamento = document.getElementById('condicoesPagamento').value || "";
+    const observacoes = document.getElementById('observacoes').value || "";
 
             // Envia cada item para o webhook Make com delay de 1 segundo
-            try {
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i];
-                        const payload = {
-                        representante: representante || "",
-                        cliente: cliente || "",
-                        nomeCliente: nomeCliente || "",
-                        pedidoCompra: pedidoCompra || "",
-                        telefone: telefone || "",
-                        cnpj: cnpj || "",
-                        email: email || "",
-                        dataEmissao: dataEmissao || "",
-                        condicoesPagamento: condicoesPagamento || "",
-                        observacoes: observacoes || "",
-                        qtd: item.quantidade != null ? item.quantidade : 0,
-                        unidade: item.unidade || "",
-                        produto: item.produto || "",
-                        medida: item.medidaAdesivo || "",
-                        tipoPapel: item.tipoPapel || "",
-                        tipoCola: item.tipoCola || "",
-                        impressao: item.impressao || "",
-                        detalhes: item.detalhes || "",
-                        metroRolo: item.metroRolo || "",
-                        valorUnitario: item.valorUnitario != null ? item.valorUnitario : 0
-                        };
+    try {
+        if (items.length === 0) {
+            // Envia o pedido mesmo sem itens, com dados de item vazios/padrão
+            const payload = {
+                representante,
+                cliente,
+                nomeCliente,
+                pedidoCompra,
+                telefone,
+                cnpj,
+                email,
+                dataEmissao,
+                condicoesPagamento,
+                observacoes,
+                qtd: 0,
+                unidade: "",
+                produto: "",
+                medida: "",
+                tipoPapel: "",
+                tipoCola: "",
+                impressao: "",
+                detalhes: "",
+                metroRolo: "",
+                valorUnitario: 0
+            };
             await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-            if (i < items.length - 1) await sleep(1000);
+        } else {
+            // Envia os itens normalmente
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const payload = {
+                    representante,
+                    cliente,
+                    nomeCliente,
+                    pedidoCompra,
+                    telefone,
+                    cnpj,
+                    email,
+                    dataEmissao,
+                    condicoesPagamento,
+                    observacoes,
+                    qtd: item.quantidade != null ? item.quantidade : 0,
+                    unidade: item.unidade || "",
+                    produto: item.produto || "",
+                    medida: item.medidaAdesivo || "",
+                    tipoPapel: item.tipoPapel || "",
+                    tipoCola: item.tipoCola || "",
+                    impressao: item.impressao || "",
+                    detalhes: item.detalhes || "",
+                    metroRolo: item.metroRolo || "",
+                    valorUnitario: item.valorUnitario != null ? item.valorUnitario : 0
+                };
+                await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (i < items.length - 1) await sleep(1000);
+            }
         }
     } catch (err) {
         hideLoading();
@@ -820,7 +852,7 @@ row.innerHTML = `
     hideLoading();
     showSuccess();
 
-            if (btn) btn.disabled = false;
+    if (btn) btn.disabled = false;
             // O submit do RD Station só é disparado ao clicar em OK na tela de sucesso!
         });
     </script>
