@@ -578,33 +578,34 @@ const tipoCola = document.getElementById('itemTipoCola').value;
             `;
             openItemModal();
         }
-        function saveItem(index) {
-            // Atualiza o item editado
-            const quantidade = parseFloat(document.getElementById('itemQtd').value);
-            const unidade = document.getElementById('itemUnidade').value;
-            const produto = document.getElementById('itemProduto').value;
-            const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
-            const impressao = document.getElementById('itemImpressao').value;
-            const detalhes = document.getElementById('itemDetalhes').value;
-            const metroRolo = document.getElementById('itemMetroRolo').value;
-            const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
-const valorUnitario = parseFloat(valorUnitarioStr) || 0;
+function saveItem(index) {
+    const quantidade = parseFloat(document.getElementById('itemQtd').value);
+    const unidade = document.getElementById('itemUnidade').value;
+    const produto = document.getElementById('itemProduto').value;
+    const medidaAdesivo = document.getElementById('itemMedidaAdesivo').value;
+    const tipoPapel = document.getElementById('itemTipoPapel').value;
+    const tipoCola = document.getElementById('itemTipoCola').value;
+    const impressao = document.getElementById('itemImpressao').value;
+    const detalhes = document.getElementById('itemDetalhes').value;
+    const metroRolo = document.getElementById('itemMetroRolo').value;
+    const valorUnitarioStr = document.getElementById('itemValorUnitario').value.replace(/[^\d,]/g,'').replace(',', '.');
+    const valorUnitario = parseFloat(valorUnitarioStr) || 0;
 
 
-            if (!quantidade || !produto || !valorUnitario) {
-                alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
-                return;
-            }
-            items[index] = { quantidade, unidade, produto, medidaAdesivo, impressao, detalhes, metroRolo, valorUnitario };
-            updateItemsTable();
-            closeItemModal();
+    if (!quantidade || !produto || !valorUnitario) {
+        alert('Por favor, preencha pelo menos a quantidade, produto e valor unitário.');
+        return;
+    }
+    items[index] = { quantidade, unidade, produto, medidaAdesivo, tipoPapel, tipoCola, impressao, detalhes, metroRolo, valorUnitario };
+    updateItemsTable();
+    closeItemModal();
             // Restaura o botão do modal para Adicionar Item
-            let actions = document.querySelector('#itemModal .modal-actions');
-            actions.innerHTML = `
-                <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
-                <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
-            `;
-        }
+    let actions = document.querySelector('#itemModal .modal-actions');
+    actions.innerHTML = `
+        <button type="button" class="btn btn-secondary" onclick="closeItemModal()">Cancelar</button>
+        <button type="button" class="btn" onclick="addItem()">Adicionar Item</button>
+    `;
+}
 
         function removeItem(index) {
             if (confirm('Tem certeza que deseja remover este item?')) {
@@ -765,15 +766,16 @@ row.innerHTML = `
             }
 
             // Dados do formulário
-            const representante = document.getElementById('representante').value;
-            const cliente = document.getElementById('cliente').value;
-            const pedidoCompra = document.getElementById('pedidoCompra').value;
-            const telefone = document.getElementById('telefone').value;
-            const cnpj = document.getElementById('cnpj').value;
-            const email = document.getElementById('email').value;
-            const dataEmissao = document.getElementById('dataEmissao').value;
-            const condicoesPagamento = document.getElementById('condicoesPagamento').value;
-            const observacoes = document.getElementById('observacoes').value;
+    const representante = document.getElementById('representante').value;
+    const cliente = document.getElementById('cliente').value;
+    const nomeCliente = document.getElementById('nomeCliente').value;  // Novo
+    const pedidoCompra = document.getElementById('pedidoCompra').value;
+    const telefone = document.getElementById('telefone').value;
+    const cnpj = document.getElementById('cnpj').value;
+    const email = document.getElementById('email').value;
+    const dataEmissao = document.getElementById('dataEmissao').value;
+    const condicoesPagamento = document.getElementById('condicoesPagamento').value;
+    const observacoes = document.getElementById('observacoes').value;
 
             // Envia cada item para o webhook Make com delay de 1 segundo
             try {
@@ -782,6 +784,7 @@ row.innerHTML = `
                     const payload = {
                         representante,
                         cliente,
+                        nomeCliente,    // campo novo adicionado
                         pedidoCompra,
                         telefone,
                         cnpj,
@@ -793,27 +796,29 @@ row.innerHTML = `
                         unidade: item.unidade,
                         produto: item.produto,
                         medida: item.medidaAdesivo,
+                        tipoPapel: item.tipoPapel,  // campo novo adicionado
+                        tipoCola: item.tipoCola,    // campo novo adicionado
                         impressao: item.impressao,
                         detalhes: item.detalhes,
                         metroRolo: item.metroRolo,
                         valorUnitario: item.valorUnitario
                     };
-                    await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (i < items.length - 1) await sleep(1000); // Delay de 1s, exceto após o último
-                }
-            } catch (err) {
-                hideLoading();
-                alert('Ocorreu um erro ao enviar para o Make. Por favor, tente novamente.');
-                if (btn) btn.disabled = false;
-                return;
-            }
+            await fetch('https://hook.us2.make.com/vs656fowjtjjxhonaqysb0h0ywhw7wn8', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (i < items.length - 1) await sleep(1000);
+        }
+    } catch (err) {
+        hideLoading();
+        alert('Ocorreu um erro ao enviar para o Make. Por favor, tente novamente.');
+        if (btn) btn.disabled = false;
+        return;
+    }
 
-            hideLoading();
-            showSuccess();
+    hideLoading();
+    showSuccess();
 
             if (btn) btn.disabled = false;
             // O submit do RD Station só é disparado ao clicar em OK na tela de sucesso!
