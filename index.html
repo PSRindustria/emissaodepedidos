@@ -1,3 +1,6 @@
+html
+Copiar
+Editar
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -56,15 +59,59 @@
         .remove-item:hover { background: #fed7d7; }
         .edit-item { background: none; border: none; color: #3182ce; cursor: pointer; padding: 4px; border-radius: 4px; font-size: 18px;}
         .edit-item:hover { background: #bee3f8;}
+        /* ---- CARDS RESPONSIVOS MOBILE ---- */
+        .items-cards-list {
+            display: none;
+            margin: 0;
+            padding: 0;
+        }
+        .item-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,51,102,0.06);
+            padding: 18px 15px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            border-left: 4px solid #003366;
+            position: relative;
+        }
+        .item-card-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #003366;
+            margin-bottom: 6px;
+        }
+        .item-card-buttons {
+            position: absolute;
+            top: 15px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+        }
+        .item-card-buttons button {
+            background: none;
+            border: none;
+            font-size: 17px;
+            cursor: pointer;
+            padding: 0 6px;
+        }
+        .item-card-buttons .remove-item { color: #e53e3e; }
+        .item-card-buttons .edit-item { color: #3182ce; }
+        .item-card-label { color: #888; font-weight: 500; margin-right: 4px; }
+        /* ---- MOSTRA APENAS UM POR VEZ ---- */
         @media (max-width: 768px) {
             body { padding: 10px; }
             .form-content { padding: 20px; }
             .header { padding: 20px; }
             .header h1 { font-size: 24px; }
             .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
-            .items-table { font-size: 14px; }
-            .items-table th, .items-table td { padding: 10px 6px; }
+            .items-table { display: none !important; }
+            .items-cards-list { display: block !important; }
             .modal-content { width: 95%; padding: 20px; }
+        }
+        @media (min-width: 769px) {
+            .items-cards-list { display: none !important; }
+            .items-table { display: table !important; }
         }
         @media (max-width: 480px) {
             .form-content { padding: 8px; }
@@ -73,29 +120,7 @@
             .modal-content { padding: 12px; }
             .items-table th, .items-table td { padding: 8px 4px; }
             .section-title { font-size: 17px; }
-@media (max-width: 768px) {
-    .items-section {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    .items-table {
-        min-width: 700px;
-        width: 100%;
-        font-size: 14px;
-    }
-}
-@media (max-width: 480px) {
-    .items-section {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    .items-table {
-        min-width: 700px;
-        width: 100%;
-        font-size: 13px;
-    }
-}
-
+        }
     </style>
 </head>
 <body>
@@ -114,57 +139,56 @@
                     </div>
                 </div>
                 <!-- Informações do Cliente -->
-<div class="section">
-    <h2 class="section-title">Informações do Cliente</h2>
-    <div class="form-group">
-        <div class="form-row-3 form-row-5-custom">
-<div>
-    <label for="cnpj">CNPJ:</label>
-    <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
-    <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
-</div>
-           <div>
-    <label for="cliente">Cliente/Empresa:</label>
-    <input type="text" id="cliente" name="company_name" placeholder="Nome da empresa">
-</div>
-<div>
-    <label for="nomeCliente">Contato do Cliente:</label>
-    <input type="text" id="nomeCliente" name="name" placeholder="Nome do cliente">
-</div>
-            <div>
-                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
-                <input type="text" id="pedidoCompra" placeholder="Número do pedido">
-            </div>
-            <div>
-                <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="personal_phone" placeholder="(00) 00000-0000">
-            </div>
-            <div>
-                <label for="email">E-mail Comprador/Financeiro:</label>
-                <input type="email" id="email" name="email" placeholder="email@empresa.com">
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="section">
+                    <h2 class="section-title">Informações do Cliente</h2>
+                    <div class="form-group">
+                        <div class="form-row-3 form-row-5-custom">
+                            <div>
+                                <label for="cnpj">CNPJ:</label>
+                                <input type="text" id="cnpj" name="cf_cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                                <div id="cnpj-status" style="color: #c62828; font-size: 12px; margin: 3px 0 0 3px; min-height:18px;"></div>
+                            </div>
+                            <div>
+                                <label for="cliente">Cliente/Empresa:</label>
+                                <input type="text" id="cliente" name="company_name" placeholder="Nome da empresa">
+                            </div>
+                            <div>
+                                <label for="nomeCliente">Contato do Cliente:</label>
+                                <input type="text" id="nomeCliente" name="name" placeholder="Nome do cliente">
+                            </div>
+                            <div>
+                                <label for="pedidoCompra">Nº Pedido de Compra Cliente:</label>
+                                <input type="text" id="pedidoCompra" placeholder="Número do pedido">
+                            </div>
+                            <div>
+                                <label for="telefone">Telefone:</label>
+                                <input type="tel" id="telefone" name="personal_phone" placeholder="(00) 00000-0000">
+                            </div>
+                            <div>
+                                <label for="email">E-mail Comprador/Financeiro:</label>
+                                <input type="email" id="email" name="email" placeholder="email@empresa.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Itens do Pedido -->
                 <div class="section">
                     <h2 class="section-title">Itens do Pedido</h2>
                     <div class="items-section">
                         <table class="items-table" id="itemsTable">
-<thead>
-    <tr>
-        <th>Qtd.</th>
-        <th>Produto</th>
-        <th>Medida</th>
-        <th>Tipo de Papel</th> <!-- NOVO -->
-        <th>Tipo de Cola</th>  <!-- NOVO -->
-        <th>Impressão</th>
-        <th>M</th>
-        <th>R$ Unit.</th>
-        <th>Ações</th>
-    </tr>
-</thead>
-
+                            <thead>
+                                <tr>
+                                    <th>Qtd.</th>
+                                    <th>Produto</th>
+                                    <th>Medida</th>
+                                    <th>Tipo de Papel</th>
+                                    <th>Tipo de Cola</th>
+                                    <th>Impressão</th>
+                                    <th>M</th>
+                                    <th>R$ Unit.</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
                             <tbody id="itemsTableBody">
                                 <tr class="empty-state">
                                     <td colspan="9">
@@ -175,6 +199,8 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Cards responsivos (fora da tabela!) -->
+                        <div class="items-cards-list" id="itemsCardsList"></div>
                         <button type="button" class="btn" onclick="openItemModal()">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
                             Adicionar Item
@@ -225,7 +251,6 @@
             </form>
         </div>
     </div>
-
 <!-- Modal para Adicionar Item -->
 <div id="itemModal" class="modal">
     <div class="modal-content">
@@ -698,6 +723,39 @@ row.innerHTML = `
             }
             updateTotal();
         }
+        updateItemsCardsList();
+function updateItemsCardsList() {
+    const cardsList = document.getElementById('itemsCardsList');
+    cardsList.innerHTML = '';
+    if (items.length === 0) {
+        cardsList.innerHTML = `
+          <div class="item-card" style="text-align:center; color:#999; border-left:0;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44" style="opacity:0.3;margin-bottom:10px;">
+              <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h2v10z"/>
+            </svg>
+            Nenhum item adicionado
+            <br><small>Clique em "Adicionar Item" para começar</small>
+          </div>`;
+        return;
+    }
+    items.forEach((item, index) => {
+        cardsList.innerHTML += `
+          <div class="item-card" onclick="openItemSummaryModal(items[${index}])">
+            <div class="item-card-title">${item.produto || '<i>Sem produto</i>'}</div>
+            <div><span class="item-card-label">Qtd:</span>${item.quantidade} ${item.unidade}</div>
+            <div><span class="item-card-label">Medida:</span>${item.medidaAdesivo}</div>
+            <div><span class="item-card-label">Tipo de Papel:</span>${item.tipoPapel}</div>
+            <div><span class="item-card-label">Tipo de Cola:</span>${item.tipoCola}</div>
+            <div><span class="item-card-label">Impressão:</span>${item.impressao}</div>
+            <div><span class="item-card-label">Metro Rolo:</span>${item.metroRolo}</div>
+            <div><span class="item-card-label">Valor Unitário:</span>R$ ${item.valorUnitario.toFixed(2).replace('.', ',')}</div>
+            <div class="item-card-buttons">
+                <button class="edit-item" title="Editar" onclick="event.stopPropagation(); editItem(${index});">&#9998;</button>
+                <button class="remove-item" title="Remover" onclick="event.stopPropagation(); removeItem(${index});">&times;</button>
+            </div>
+          </div>`;
+    });
+}
 
         function updateTotal() {
             const summaryElement = document.getElementById('orderSummary');
